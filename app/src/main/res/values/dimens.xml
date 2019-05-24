@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <dimen name="size_avatar">60dp</dimen>
+    <dimen name="size_login_from">20dp</dimen>
+    <dimen name="margin_large">24dp</dimen>
+    <dimen name="margin_big">16dp</dimen>
+    <dimen name="margin_mormal">8dp</dimen>
+    <dimen name="padding_normal">8dp</dimen>
+    <dimen name="padding_big">16dp</dimen>
+    <dimen name="design_navigation_icon_padding" tools:override="true">2dp</dimen>
+    <dimen name="divider_height">1px</dimen>
+</resources>

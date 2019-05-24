@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">CukCukLiteVer1</string>
+    <string name="name_test">CukCuk Lite</string>
+    <string name="email_test">cukcuklite@gmail.com</string>
+    <string name="sale_nav">Bán hàng</string>
+    <string name="menu_nav">Thực đơn</string>
+    <string name="report_nav">Doanh thu</string>
+    <string name="title_setting_nav"><medium>Thiết lập</medium></string>
+    <string name="sync_nav">Đồng bộ dữ liệu</string>
+    <string name="setting_nav">Thiết lập</string>
+    <string name="link_acc_nav">Liên kết tài khoản</string>
+    <string name="title_help_nav"><medium>Trợ giúp</medium></string>
+    <string name="notification_nav">Thông báo</string>
+    <string name="share_nav">Giới thiệu cho bạn</string>
+    <string name="rate_nav">Đánh giá ứng dụng</string>
+    <string name="feedback_nav">Góp ý với nhà phát triển</string>
+    <string name="info_nav">Thông tin sản phẩm</string>
+    <string name="title_account_nav"><medium>Tài khoản</medium></string>
+    <string name="set_pass_nav">Đặt mật khẩu</string>
+    <string name="logout_nav">Đăng xuất</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+</resources>

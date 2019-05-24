@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <!-- showIn: Preview View hiện tại trong 1 target view nào đó -->
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_sale"
+            android:icon="@drawable/ic_sale"
+            android:title="@string/sale_nav" />
+        <item
+            android:id="@+id/nav_menu"
+            android:icon="@drawable/ic_menu"
+            android:title="@string/menu_nav" />
+        <item
+            android:id="@+id/nav_report"
+            android:icon="@drawable/ic_chart"
+            android:title="@string/report_nav" />
+    </group>
+
+    <item android:title="@string/title_setting_nav">
+        <menu>
+            <item
+                android:id="@+id/nav_sync"
+                android:icon="@drawable/ic_sync"
+                android:title="@string/sync_nav" />
+            <item
+                android:id="@+id/nav_setting"
+                android:icon="@drawable/ic_settings_gray"
+                android:title="@string/setting_nav" />
+            <item
+                android:id="@+id/nav_link"
+                android:icon="@drawable/ic_link_account"
+                android:title="@string/link_acc_nav"/>
+        </menu>
+    </item>
+    <item android:title="@string/title_help_nav">
+        <menu>
+            <item
+                android:id="@+id/nav_notification"
+                android:icon="@drawable/ic_notifications"
+                android:title="@string/notification_nav"/>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_share"
+                android:title="@string/share_nav"/>
+            <item
+                android:id="@+id/nav_rate"
+                android:icon="@drawable/ic_rate"
+                android:title="@string/rate_nav"/>
+            <item
+                android:id="@+id/nav_feedback"
+                android:icon="@drawable/ic_feedback"
+                android:title="@string/feedback_nav"/>
+            <item
+                android:id="@+id/nav_info"
+                android:icon="@drawable/ic_info"
+                android:title="@string/info_nav"/>
+        </menu>
+    </item>
+    <item android:title="@string/title_account_nav">
+        <menu>
+            <item
+                android:id="@+id/nav_setPassword"
+                android:icon="@drawable/ic_change_password"
+                android:title="@string/set_pass_nav"/>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_logout"
+                android:title="@string/logout_nav"/>
+        </menu>
+    </item>
+</menu>
