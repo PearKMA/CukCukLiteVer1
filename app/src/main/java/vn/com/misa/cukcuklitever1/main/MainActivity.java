@@ -1,4 +1,4 @@
-package vn.com.misa.cukcuklitever1.main_activity;
+package vn.com.misa.cukcuklitever1.main;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,7 +15,7 @@ import android.widget.Toast;
 import butterknife.BindView;
 import vn.com.misa.cukcuklitever1.R;
 import vn.com.misa.cukcuklitever1.base.BaseActivity;
-import vn.com.misa.cukcuklitever1.menu_cook.MenuFragment;
+import vn.com.misa.cukcuklitever1.menu_cook.MenuFoodFragment;
 import vn.com.misa.cukcuklitever1.view_custom.CircleImageView;
 
 /**
@@ -25,7 +25,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @BindView(R.id.tvTitleToolbar)
     TextView tvTitleToolbar;            //hiển thị tên fragment đang hiển thị
-    @BindView(R.id.fragment_container)
+    @BindView(R.id.fragmentContainer)
     FrameLayout fragmentContainer;      //layout chính làm việc với các fragment
     private CircleImageView ivAvatar;   //avatar của user
     private ImageView ivLoginFrom;      //ảnh hiển thị cho biết người dùng đăng nhâp từ face, google hay sđt
@@ -33,10 +33,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     TextView tvEmail;                   //email user
     @BindView(R.id.drawerLayout)
     DrawerLayout drawerLayout;          //
-    @BindView(R.id.nav_view)            //menu
+    @BindView(R.id.navView)            //menu
     NavigationView navView;             //
 
-    private MainActivityPresenter presenter;
+    private IMainActivity.Presenter presenter;
 
     /**
      * get layout id để set content view
@@ -153,14 +153,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     /**
-     * add MenuFragment vào activity
+     * add MenuFoodFragment vào activity
      */
     @Override
     public void showMenuFragment() {
         getSupportFragmentManager()
                 .beginTransaction().
                 disallowAddToBackStack()
-                .replace(R.id.fragment_container,MenuFragment.newInstance(),MenuFragment.TAG).commit();
+                .replace(R.id.fragmentContainer, MenuFoodFragment.newInstance(), MenuFoodFragment.TAG).commit();
     }
 
 

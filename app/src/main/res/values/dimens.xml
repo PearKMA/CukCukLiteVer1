@@ -4,9 +4,10 @@
     <dimen name="size_login_from">20dp</dimen>
     <dimen name="margin_large">24dp</dimen>
     <dimen name="margin_big">16dp</dimen>
-    <dimen name="margin_mormal">8dp</dimen>
+    <dimen name="margin_normal">8dp</dimen>
     <dimen name="padding_normal">8dp</dimen>
     <dimen name="padding_big">16dp</dimen>
     <dimen name="design_navigation_icon_padding" tools:override="true">2dp</dimen>
     <dimen name="divider_height">1px</dimen>
+    <dimen name="size_icon_food">48dp</dimen>
 </resources>

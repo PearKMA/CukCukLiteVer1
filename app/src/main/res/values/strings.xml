@@ -20,4 +20,13 @@
     <string name="logout_nav">Đăng xuất</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="insert_successful">Thêm thành công</string>
+    <string name="insert_fail">Thêm thất bại</string>
+    <string name="edit_successful">Chỉnh sửa thành công</string>
+    <string name="edit_fail">Chỉnh sửa thất bại</string>
+    <string name="remove_successful">Xóa thành công</string>
+    <string name="remove_fail">Xóa thất bại</string>
+    <string name="price_food">Giá bán:</string>
+    <string name="status_food"><small>Ngừng bán</small></string>
 </resources>
