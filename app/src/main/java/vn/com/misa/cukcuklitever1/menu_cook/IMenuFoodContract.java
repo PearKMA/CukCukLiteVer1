@@ -12,16 +12,17 @@ public interface IMenuFoodContract {
 
         void showAddFood();
 
-        void showEditFood();
+        void showEditFood(Food food);
 
     }
 
     interface Presenter {
+
         void setFoodData(Context context);
 
         void addFood();
 
-        void editFood();
+        void editFood(Food food);
     }
 
     interface Model {

@@ -21,7 +21,7 @@ import vn.com.misa.cukcuklitever1.view_custom.CircleImageView;
 /**
  * create by lvhung on 5/24/2019
  */
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,IMainActivity.View{
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, IMainActivityContract.View{
 
     @BindView(R.id.tvTitleToolbar)
     TextView tvTitleToolbar;            //hiển thị tên fragment đang hiển thị
@@ -36,7 +36,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @BindView(R.id.navView)            //menu
     NavigationView navView;             //
 
-    private IMainActivity.Presenter presenter;
+    private IMainActivityContract.Presenter presenter;
 
     /**
      * get layout id để set content view
@@ -46,6 +46,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     protected int getIdLayout() {
         return R.layout.activity_main;
     }
+
 
     /**
      * setup các view
@@ -73,7 +74,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         toggle.syncState();
 
         if (savedInstanceState == null) {
-            presenter.onMenuSelected();
+            presenter.onMenuSelected(this);
             navView.setCheckedItem(R.id.nav_menu);
         }
     }
@@ -103,8 +104,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 Toast.makeText(this,"Đang thi công!",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_menu:
-                tvTitleToolbar.setText(""+getString(R.string.menu_nav));
-                presenter.onMenuSelected();
+                presenter.onMenuSelected(this);
                 break;
             case R.id.nav_report:
                 tvTitleToolbar.setText(""+getString(R.string.report_nav));
@@ -156,7 +156,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * add MenuFoodFragment vào activity
      */
     @Override
-    public void showMenuFragment() {
+    public void showMenuFragment(String title) {
+        tvTitleToolbar.setText(title);
         getSupportFragmentManager()
                 .beginTransaction().
                 disallowAddToBackStack()

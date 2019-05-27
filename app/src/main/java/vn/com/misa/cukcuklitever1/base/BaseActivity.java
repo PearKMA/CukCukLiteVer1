@@ -58,7 +58,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * lấy id layout mà class con sử dụng
+     *
      * @return id để setContentView
      */
     protected abstract int getIdLayout();
+
+
 }

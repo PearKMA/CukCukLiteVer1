@@ -29,4 +29,12 @@
     <string name="remove_fail">Xóa thất bại</string>
     <string name="price_food">Giá bán:</string>
     <string name="status_food"><small>Ngừng bán</small></string>
+    <string name="add_food">Thêm món</string>
+    <string name="name_food">Tên món <font color="#FF0000">*</font></string>
+    <string name="food_price">Giá bán</string>
+    <string name="unit_food">Đơn vị tính <font color="#FF0000">*</font></string>
+    <string name="color_food">Màu sắc</string>
+    <string name="icon_food">Biểu tượng</string>
+    <string name="hint_input_food">Nhập tên món</string>
+    <string name="get">Cất</string>
 </resources>
