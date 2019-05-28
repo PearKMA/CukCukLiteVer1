@@ -37,4 +37,11 @@
     <string name="icon_food">Biểu tượng</string>
     <string name="hint_input_food">Nhập tên món</string>
     <string name="get">Cất</string>
+    <string name="hint_unit">Thêm đơn vị tính</string>
+    <string name="name_err">Tên món không được để trống</string>
+    <string name="unit_err">Đơn vị tính không được để trống</string>
+    <string name="add_successfull">Thêm thành công</string>
+    <string name="done">Xong</string>
+    <string name="default_price">0</string>
+    <string name="default_unit">Bao</string>
 </resources>

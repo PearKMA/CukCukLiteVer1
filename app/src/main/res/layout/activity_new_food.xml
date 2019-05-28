@@ -37,11 +37,13 @@
             android:textColor="@color/text_color_menu_food"
             android:text="@string/name_food"/>
         <EditText
+            android:id="@+id/etNameFood"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textColor="@color/text_color_menu_food"
             android:hint="@string/hint_input_food"
+            android:textStyle="bold"
             android:inputType="text"
             android:background="@null"
             android:gravity="end"
@@ -66,9 +68,10 @@
             android:textColor="@color/text_color_menu_food"
             android:text="@string/food_price"/>
         <TextView
+            android:id="@+id/tvPriceFood"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
+            android:text="@string/default_price"
             android:textColor="@color/black"
             android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -92,9 +95,10 @@
             android:textColor="@color/text_color_menu_food"
             android:text="@string/unit_food"/>
         <TextView
+            android:id="@+id/tvUnitFood"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bao"
+            android:text="@string/default_unit"
             android:textColor="@color/black"
             android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -119,6 +123,7 @@
             android:textColor="@color/text_color_menu_food"
             android:text="@string/color_food"/>
         <ImageView
+            android:id="@+id/ivColorFood"
             android:layout_width="@dimen/size_icon_food"
             android:layout_height="@dimen/size_icon_food"
             android:src="@drawable/ic_color"
@@ -131,6 +136,7 @@
             android:text="@string/icon_food"
             android:layout_gravity="center"/>
         <ImageView
+            android:id="@+id/ivIconFood"
             android:layout_width="@dimen/size_icon_food"
             android:layout_height="@dimen/size_icon_food"
             android:src="@drawable/ic_help_blue"
@@ -143,6 +149,7 @@
         android:layout_weight="1">
 
         <Button
+            android:id="@+id/btnAdd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"

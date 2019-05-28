@@ -1,4 +1,4 @@
-package vn.com.misa.cukcuklitever1.menu_cook.database;
+package vn.com.misa.cukcuklitever1.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -17,11 +17,15 @@ import java.util.ArrayList;
 
 import vn.com.misa.cukcuklitever1.menu_cook.entity.Food;
 
+/**
+ * Lấy danh sách các thực đơn trong database
+ */
 public class SQLiteFoodDataController extends SQLiteOpenHelper {
-    public String DB_PATH = "//data//data//%s//databases//";
+    private String DB_PATH = "//data//data//%s//databases//";
     private static String DB_NAME = "Food.sqlite";
-    public SQLiteDatabase database;
+    private SQLiteDatabase database;
     private final Context mContext;
+    private final String NAME_TABLE = "food";
 
     /**
      * Constructor
@@ -29,6 +33,7 @@ public class SQLiteFoodDataController extends SQLiteOpenHelper {
      */
     public SQLiteFoodDataController(@Nullable Context context) {
         super(context, DB_NAME, null, 1);
+        assert context != null;
         DB_PATH = String.format(DB_PATH, context.getPackageName());
         this.mContext = context;
     }
@@ -42,13 +47,13 @@ public class SQLiteFoodDataController extends SQLiteOpenHelper {
     public ArrayList<Food> getAllFood() {
         ArrayList<Food> foods = new ArrayList<>();
         String name, unit, color, icon;
-        int id,price;
+        int id, price;
         boolean status;
         Food food;
         try {
             openDatabase();
             Cursor cs;
-            String sql = "SELECT * FROM food";
+            String sql = "SELECT * FROM " + NAME_TABLE;
             cs = database.rawQuery(sql, null);
             while (cs.moveToNext()) {
                 id = cs.getInt(0);
@@ -58,12 +63,8 @@ public class SQLiteFoodDataController extends SQLiteOpenHelper {
                 color = cs.getString(4);
                 icon = cs.getString(5);
                 int statusFromSqlite = cs.getInt(6);
-                if (statusFromSqlite == 0) {
-                    status = false;
-                } else {
-                    status = true;
-                }
-                food = new Food(id,name, price, unit, color, icon, status);
+                status = statusFromSqlite != 0;
+                food = new Food(id, name, price, unit, color, icon, status);
                 foods.add(food);
             }
         } catch (SQLException e) {
@@ -76,12 +77,13 @@ public class SQLiteFoodDataController extends SQLiteOpenHelper {
 
     /**
      * Thêm 1 thực đơn vào danh sách
-     * @param food  thực đơn
-     * @return  kết quả thêm là thành công hay lỗi
+     *
+     * @param food thực đơn
+     * @return kết quả thêm là thành công hay lỗi
      */
-    public boolean insertFood(Food food){
+    public boolean insertFood(Food food) {
         boolean result = false;
-        try{
+        try {
             openDatabase();
             ContentValues cv = new ContentValues();
             cv.put("name", food.getName());
@@ -89,14 +91,12 @@ public class SQLiteFoodDataController extends SQLiteOpenHelper {
             cv.put("unit", food.getUnit());
             cv.put("color", food.getColor());
             cv.put("icon", food.getIcon());
-            cv.put("status",food.isStatus()==true?1:0);
-            if (database.insert("food",null,cv)>-1)
+            cv.put("status", food.isStatus() ? 1 : 0);
+            if (database.insert(NAME_TABLE, null, cv) > -1)
                 result = true;
-            else
-                result = false;
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             close();
         }
         return result;
@@ -104,13 +104,14 @@ public class SQLiteFoodDataController extends SQLiteOpenHelper {
 
     /**
      * Sửa thực đơn
-     * @param food  món đã sửa
-     * @param id    id món muốn sửa
-     * @return      kết quả
+     *
+     * @param food món đã sửa
+     * @param id   id món muốn sửa
+     * @return kết quả
      */
-    public boolean editFood(Food food,int id){
+    public boolean editFood(Food food, int id) {
         boolean result = false;
-        try{
+        try {
             openDatabase();
             ContentValues cv = new ContentValues();
             cv.put("name", food.getName());
@@ -118,37 +119,34 @@ public class SQLiteFoodDataController extends SQLiteOpenHelper {
             cv.put("unit", food.getUnit());
             cv.put("color", food.getColor());
             cv.put("icon", food.getIcon());
-            cv.put("status",food.isStatus()==true?1:0);
-            if (database.update("food",cv,"id ='"+id+"'",null)>0){
+            cv.put("status", food.isStatus() ? 1 : 0);
+            if (database.update(NAME_TABLE, cv, "id ='" + id + "'", null) > 0) {
                 result = true;
-            }else {
-                result = false;
             }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             close();
         }
         return result;
     }
 
-    public boolean removeFood(int id){
+    public boolean removeFood(int id) {
         boolean result = false;
-        try{
+        try {
             openDatabase();
-            int c = database.delete("food", "id ='" + id + "'", null);
-            if (c>0){
+            int c = database.delete(NAME_TABLE, "id ='" + id + "'", null);
+            if (c > 0) {
                 result = true;
-            }else {
-                result = false;
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             close();
         }
         return result;
     }
+
     /**
      * Kiểm tra database đã có trong thiết bị hay chưa
      * create by lvhung on 5/25/2019
@@ -159,11 +157,7 @@ public class SQLiteFoodDataController extends SQLiteOpenHelper {
         try {
             String myPath = DB_PATH + DB_NAME;
             File fileDB = new File(myPath);
-            if (fileDB.exists()) {
-                return true;
-            } else {
-                return false;
-            }
+            return fileDB.exists();
         } catch (Exception e) {
             return false;
         }
@@ -194,7 +188,7 @@ public class SQLiteFoodDataController extends SQLiteOpenHelper {
      *
      * @throws SQLException ngoại lệ khi mở thất bại
      */
-    public void openDatabase() throws SQLException {
+    private void openDatabase() throws SQLException {
         //nếu chưa database thì copy từ assets
         if (!checkExistDatabase()) {
             this.getReadableDatabase();

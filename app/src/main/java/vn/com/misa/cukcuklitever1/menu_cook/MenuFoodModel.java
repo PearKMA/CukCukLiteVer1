@@ -4,7 +4,7 @@ import android.content.Context;
 
 import java.util.ArrayList;
 
-import vn.com.misa.cukcuklitever1.menu_cook.database.SQLiteFoodDataController;
+import vn.com.misa.cukcuklitever1.database.SQLiteFoodDataController;
 import vn.com.misa.cukcuklitever1.menu_cook.entity.Food;
 
 public class MenuFoodModel implements IMenuFoodContract.Model {

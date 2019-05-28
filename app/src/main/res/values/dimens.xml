@@ -13,4 +13,5 @@
     <dimen name="size_arrow_edit">32dp</dimen>
     <dimen name="round_corner">25dp</dimen>
     <dimen name="magin_huge">42dp</dimen>
+    <dimen name="padding_large">24dp</dimen>
 </resources>
