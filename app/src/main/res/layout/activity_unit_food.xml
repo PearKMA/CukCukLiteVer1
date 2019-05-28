@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".UnitFoodActivity">
+    tools:context=".edit_unit.UnitFoodActivity">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -24,11 +24,13 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/white" />
     </android.support.v7.widget.Toolbar>
+
     <ListView
+        android:id="@+id/lvUnit"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:layout_marginBottom="@dimen/margin_big">
+        android:layout_marginBottom="@dimen/margin_big"
+        android:layout_weight="1">
 
     </ListView>
 

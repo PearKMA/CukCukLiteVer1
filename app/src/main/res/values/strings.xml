@@ -41,7 +41,13 @@
     <string name="name_err">Tên món không được để trống</string>
     <string name="unit_err">Đơn vị tính không được để trống</string>
     <string name="add_successfull">Thêm thành công</string>
+    <string name="add_fail">Thêm thành công</string>
     <string name="done">Xong</string>
     <string name="default_price">0</string>
     <string name="default_unit">Bao</string>
+    <string name="broadcast_update">Update</string>
+    <string name="titleStatus">Trạng thái</string>
+    <string name="delete">Xóa</string>
+    <string name="edit_food">Sửa món</string>
+    <string name="title_unit">Đơn vị tính</string>
 </resources>

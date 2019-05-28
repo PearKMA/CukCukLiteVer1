@@ -1,6 +1,9 @@
 package vn.com.misa.cukcuklitever1.menu_cook;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +21,7 @@ import butterknife.BindView;
 import vn.com.misa.cukcuklitever1.R;
 import vn.com.misa.cukcuklitever1.add_food.NewFoodActivity;
 import vn.com.misa.cukcuklitever1.base.BaseFragment;
+import vn.com.misa.cukcuklitever1.edit_food.EditFoodActivity;
 import vn.com.misa.cukcuklitever1.menu_cook.adapter.MenuFoodAdapter;
 import vn.com.misa.cukcuklitever1.menu_cook.entity.Food;
 
@@ -30,6 +34,7 @@ public class MenuFoodFragment extends BaseFragment implements IMenuFoodContract.
     ListView lvListMenu;
     private MenuFoodAdapter mAdapter;
     private IMenuFoodContract.Presenter mPresenter;
+    BroadcastReceiver mBroadcast;
     /**
      * Khởi tạo fragment
      *create by lvhung on 5/25/2019
@@ -53,6 +58,12 @@ public class MenuFoodFragment extends BaseFragment implements IMenuFoodContract.
         setHasOptionsMenu(true);
         mPresenter = new MenuFoodPresenter(getActivity(),this);
         mPresenter.setFoodData(getActivity());
+        mBroadcast = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                mPresenter.setFoodData(getActivity());
+            }
+        };
     }
 
     /**
@@ -104,6 +115,8 @@ public class MenuFoodFragment extends BaseFragment implements IMenuFoodContract.
         if (mAdapter==null) {
             mAdapter = new MenuFoodAdapter(getActivity(), R.layout.item_menu_food, listFood);
             lvListMenu.setAdapter(mAdapter);
+        }else {
+            mAdapter.notifyDataSetInvalidated();
         }
         lvListMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -128,6 +141,35 @@ public class MenuFoodFragment extends BaseFragment implements IMenuFoodContract.
      */
     @Override
     public void showEditFood(Food food) {
-        Toast.makeText(getActivity(),food.getName()+"",Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity(), EditFoodActivity.class);
+        intent.putExtra("ID", food.getId());
+        intent.putExtra("NAME", food.getName());
+        intent.putExtra("PRICE", food.getPrice());
+        intent.putExtra("UNIT", food.getUnit());
+        intent.putExtra("COLOR", food.getColor());
+        intent.putExtra("ICON", food.getIcon());
+        intent.putExtra("STATUS", food.isStatus());
+        getActivity().startActivity(intent);
+
+    }
+
+    /**
+     * Đăng ký broadcast nhận thông tin cập nhật listview
+     */
+    @Override
+    public void onStart() {
+        getActivity().registerReceiver(mBroadcast,
+                new IntentFilter("" + getString(R.string.broadcast_update)));
+        super.onStart();
+    }
+
+    /**
+     * Hủy đăng ký broadcast
+     */
+    @Override
+    public void onDestroy() {
+        getActivity().unregisterReceiver(mBroadcast);
+        mPresenter.destroyActivity();
+        super.onDestroy();
     }
 }

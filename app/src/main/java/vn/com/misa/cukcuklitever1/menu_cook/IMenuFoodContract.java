@@ -23,6 +23,8 @@ public interface IMenuFoodContract {
         void addFood();
 
         void editFood(Food food);
+
+        void destroyActivity();
     }
 
     interface Model {

@@ -21,7 +21,14 @@ public class Food {
         this.icon = icon;
         this.status = status;
     }
-
+    public Food( String name, int price, String unit, String color, String icon, boolean status) {
+        this.name = name;
+        this.price = price;
+        this.unit = unit;
+        this.color = color;
+        this.icon = icon;
+        this.status = status;
+    }
     public int getId() {
         return id;
     }

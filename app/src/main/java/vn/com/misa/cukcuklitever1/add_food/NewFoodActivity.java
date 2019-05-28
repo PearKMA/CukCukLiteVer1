@@ -49,7 +49,7 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         tvTitleToolbar.setText("" + getString(R.string.add_food));
-        mPresenter = new NewFoodPresenter(this);
+        mPresenter = new NewFoodPresenter(this,this);
         btnAdd.setOnClickListener(this);
         tvPriceFood.setOnClickListener(this);
         tvUnitFood.setOnClickListener(this);
@@ -158,7 +158,7 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
     /**
      * Hiển thị thông báo lỗi lên màn hình
      *
-     * @param message
+     * @param message thông báo
      */
     private void showToast(String message) {
         mToast = Toast.makeText(this, "" + message, Toast.LENGTH_SHORT);
@@ -197,7 +197,7 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
     /**
      * Lấy dữ liệu được gửi về từ dialog
      *
-     * @param input
+     * @param input giá được nhập
      */
     @Override
     public void sendInput(int input) {

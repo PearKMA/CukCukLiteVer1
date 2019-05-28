@@ -11,16 +11,18 @@ public class MenuFoodPresenter implements IMenuFoodContract.Presenter {
 
     public MenuFoodPresenter(Activity context, IMenuFoodContract.View mView) {
         this.mView = mView;
-        mModel=new MenuFoodModel(context);
+        mModel = new MenuFoodModel(context);
     }
 
     /**
      * hiển thị toàn bộ dữ liệu trong list lên màn hình
+     *
      * @param context
      */
     @Override
     public void setFoodData(Context context) {
-        mView.showData(mModel.getFood());
+        if (mView != null)
+            mView.showData(mModel.getFood());
     }
 
     /**
@@ -28,16 +30,24 @@ public class MenuFoodPresenter implements IMenuFoodContract.Presenter {
      */
     @Override
     public void addFood() {
-        mView.showAddFood();
+        if (mView != null)
+            mView.showAddFood();
     }
 
     /**
      * Sửa món
+     *
      * @param food
      */
     @Override
     public void editFood(Food food) {
-        mView.showEditFood(food);
+        if (mView != null)
+            mView.showEditFood(food);
+    }
+
+    @Override
+    public void destroyActivity() {
+        mView = null;
     }
 
 }
