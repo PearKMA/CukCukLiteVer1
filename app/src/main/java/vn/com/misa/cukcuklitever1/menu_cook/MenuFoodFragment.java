@@ -26,18 +26,21 @@ import vn.com.misa.cukcuklitever1.menu_cook.adapter.MenuFoodAdapter;
 import vn.com.misa.cukcuklitever1.menu_cook.entity.Food;
 
 /**
+ * fragment hiển thị dữ liệu
  * create by lvhung on 5/24/2019
  */
-public class MenuFoodFragment extends BaseFragment implements IMenuFoodContract.View{
+public class MenuFoodFragment extends BaseFragment implements IMenuFoodContract.View {
     public static final String TAG = "MenuFoodFragment";
     @BindView(R.id.lvListMenu)
     ListView lvListMenu;
     private MenuFoodAdapter mAdapter;
     private IMenuFoodContract.Presenter mPresenter;
     BroadcastReceiver mBroadcast;
+
     /**
      * Khởi tạo fragment
-     *create by lvhung on 5/25/2019
+     * create by lvhung on 5/25/2019
+     *
      * @return
      */
     public static MenuFoodFragment newInstance() {
@@ -47,30 +50,42 @@ public class MenuFoodFragment extends BaseFragment implements IMenuFoodContract.
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        IntentFilter filter = new IntentFilter("" + getString(R.string.broadcast_update));
+        mBroadcast = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (mPresenter != null)
+                    mPresenter.setFoodData();
+            }
+        };
+        getActivity().registerReceiver(mBroadcast,
+                filter);
+        super.onCreate(savedInstanceState);
+    }
+
     /**
      * Xử lý các view trong fragment, thiết lập option menu
-     *create by lvhung on 5/25/2019
-     * @param view layout chính
+     * create by lvhung on 5/25/2019
+     *
+     * @param view               layout chính
      * @param savedInstanceState sao lưu trạng thái
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        mPresenter = new MenuFoodPresenter(getActivity(),this);
-        mPresenter.setFoodData(getActivity());
-        mBroadcast = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                mPresenter.setFoodData(getActivity());
-            }
-        };
+        mPresenter = new MenuFoodPresenter(getActivity(), this);
+        mPresenter.setFoodData();
+
     }
 
     /**
      * Xử lý khi option menu được chọn
-     *create by lvhung on 5/25/2019
+     * create by lvhung on 5/25/2019
+     *
      * @param item item menu được chọn
-     * @return  hành dộng
+     * @return hành dộng
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -85,7 +100,8 @@ public class MenuFoodFragment extends BaseFragment implements IMenuFoodContract.
 
     /**
      * lấy id layout để setContentView
-     *create by lvhung on 5/25/2019
+     * create by lvhung on 5/25/2019
+     *
      * @return id layout
      */
     @Override
@@ -95,9 +111,10 @@ public class MenuFoodFragment extends BaseFragment implements IMenuFoodContract.
 
     /**
      * Tạo 1 option menu có chức năng thêm
-     *create by lvhung on 5/25/2019
-     * @param menu  menu
-     * @param inflater  chuyển đổi layout thành dạng code
+     * create by lvhung on 5/25/2019
+     *
+     * @param menu     menu
+     * @param inflater chuyển đổi layout thành dạng code
      */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -108,16 +125,14 @@ public class MenuFoodFragment extends BaseFragment implements IMenuFoodContract.
     /**
      * Show danh sách các món trong thực đơn
      * create by lvhung on 5/25/2019
+     *
      * @param listFood data cho listview
      */
     @Override
     public void showData(final ArrayList<Food> listFood) {
-        if (mAdapter==null) {
-            mAdapter = new MenuFoodAdapter(getActivity(), R.layout.item_menu_food, listFood);
-            lvListMenu.setAdapter(mAdapter);
-        }else {
-            mAdapter.notifyDataSetInvalidated();
-        }
+        mAdapter = new MenuFoodAdapter(getActivity(), R.layout.item_menu_food, listFood);
+        lvListMenu.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
         lvListMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -154,21 +169,14 @@ public class MenuFoodFragment extends BaseFragment implements IMenuFoodContract.
     }
 
     /**
-     * Đăng ký broadcast nhận thông tin cập nhật listview
-     */
-    @Override
-    public void onStart() {
-        getActivity().registerReceiver(mBroadcast,
-                new IntentFilter("" + getString(R.string.broadcast_update)));
-        super.onStart();
-    }
-
-    /**
      * Hủy đăng ký broadcast
+     * create by lvhung on 5/29/2019
      */
     @Override
     public void onDestroy() {
-        getActivity().unregisterReceiver(mBroadcast);
+        if (mBroadcast != null) {
+            getActivity().unregisterReceiver(mBroadcast);
+        }
         mPresenter.destroyActivity();
         super.onDestroy();
     }

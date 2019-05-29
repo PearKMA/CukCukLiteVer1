@@ -15,6 +15,9 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+/**
+ * Tạo ảnh tròn
+ */
 public class CircleImageView extends ImageView {
     public CircleImageView(Context context) {
         super(context);
@@ -30,7 +33,7 @@ public class CircleImageView extends ImageView {
 
     /**
      * Lấy ảnh được set và chuyển nó thành hình tròn
-     * @param canvas
+     * @param canvas canvas
      */
     @Override
     protected void onDraw(@NonNull Canvas canvas) {

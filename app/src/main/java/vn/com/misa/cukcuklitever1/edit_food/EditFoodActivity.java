@@ -1,5 +1,6 @@
 package vn.com.misa.cukcuklitever1.edit_food;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -22,9 +23,12 @@ import vn.com.misa.cukcuklitever1.R;
 import vn.com.misa.cukcuklitever1.base.BaseActivity;
 import vn.com.misa.cukcuklitever1.dialog.DialogPriceFood;
 
-public class EditFoodActivity extends BaseActivity implements View.OnClickListener, IEditFoodContract.IView, DialogPriceFood.OnInputListener {
-
-
+/**
+ * Chỉnh sửa món ăn trong thực đơn
+ * create by lvhung on 5/29/2019
+ */
+public class EditFoodActivity extends BaseActivity implements View.OnClickListener,
+        IEditFoodContract.IView, DialogPriceFood.OnInputListener {
     @BindView(R.id.tvTitleToolbar)
     TextView tvTitleToolbar;
     @BindView(R.id.etNameFood)
@@ -46,14 +50,23 @@ public class EditFoodActivity extends BaseActivity implements View.OnClickListen
     private IEditFoodContract.IPresenter mPresenter;
     private Toast mToast;
     private int mPrice;  //Lưu giá bán khi thay đổi
+    private String mColor,mIcon;
     int id;
+
+    /**
+     * Lấy id layout
+     * @return id để setContentView
+     */
     @Override
     protected int getIdLayout() {
         return R.layout.activity_edit_food;
     }
 
+    /**
+     * Xử lý các view
+     */
     @Override
-    public void initView(Bundle savedInstanceState) {
+    public void initView() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         tvTitleToolbar.setText("" + getString(R.string.edit_food));
@@ -72,9 +85,11 @@ public class EditFoodActivity extends BaseActivity implements View.OnClickListen
             mPrice=getIntent().getIntExtra("PRICE",0);
             tvPriceFood.setText(""+String.format("%,d",mPrice));
             tvUnitFood.setText("" + getIntent().getStringExtra("UNIT"));
-            ivColorFood.setBackgroundColor( Color.parseColor(""+getIntent().getStringExtra("COLOR")));
-            ivIconFood.setBackgroundColor( Color.parseColor(""+getIntent().getStringExtra("COLOR")));
-            Glide.with(this).asBitmap().load("" + getIntent().getStringExtra("ICON")).into(ivIconFood);
+            mColor=getIntent().getStringExtra("COLOR");
+            ivColorFood.setBackgroundColor( Color.parseColor(""+mColor));
+            ivIconFood.setBackgroundColor( Color.parseColor(""+mColor));
+            mIcon=getIntent().getStringExtra("ICON");
+            Glide.with(this).asBitmap().load("" + mIcon).into(ivIconFood);
             cbStatus.setChecked(getIntent().getBooleanExtra("STATUS",false));
         }
         btnAdd.setOnClickListener(this);
@@ -97,10 +112,8 @@ public class EditFoodActivity extends BaseActivity implements View.OnClickListen
             price = mPrice;
         }
         String unit = tvUnitFood.getText().toString().trim();
-        String color = "#" + Integer.toHexString(ContextCompat.getColor(this, R.color.main_color) & 0x00ffffff);
-        String icon = "file:///android_asset/icon/ic_default.png";
         boolean status = cbStatus.isChecked();
-        mPresenter.checkInput(id,name, price, unit, color, icon,status);
+        mPresenter.checkInput(id,name, price, unit, mColor, mIcon,status);
     }
 
     /**
@@ -180,7 +193,6 @@ public class EditFoodActivity extends BaseActivity implements View.OnClickListen
      */
     @Override
     public void onSucessful(String message) {
-        showToast(""+message);
         finish();
     }
 

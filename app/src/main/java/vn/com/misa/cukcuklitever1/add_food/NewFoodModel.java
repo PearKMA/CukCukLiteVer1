@@ -1,6 +1,7 @@
 package vn.com.misa.cukcuklitever1.add_food;
 
 import android.content.Context;
+import android.content.Intent;
 
 import java.util.ArrayList;
 
@@ -44,6 +45,8 @@ public class NewFoodModel implements INewFoodContract.IModel {
         }else {
             Food food = new Food(name, price, unit, color, icon,false);
             if (mDatabase.insertFood(food)) {
+                Intent in = new Intent(""+mContext.getString(R.string.broadcast_update));
+                mContext.sendBroadcast(in);
                 iAddFinished.onSuccessful();
             }else {
                 iAddFinished.onFail(""+mContext.getString(R.string.edit_fail));

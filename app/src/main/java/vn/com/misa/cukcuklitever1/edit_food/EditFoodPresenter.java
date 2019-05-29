@@ -3,13 +3,15 @@ package vn.com.misa.cukcuklitever1.edit_food;
 import android.app.Activity;
 import android.content.Intent;
 
+/**
+ * Xử lý giữa thông tin chỉnh sửa với database
+ * create by lvhung on 5/29/2019
+ */
 public class EditFoodPresenter implements IEditFoodContract.IPresenter, IEditFoodContract.IModel.IEditFinish {
     private IEditFoodContract.IView mView;
     private IEditFoodContract.IModel mModel;
-    private Activity mContext;
     EditFoodPresenter(Activity mContext, IEditFoodContract.IView mView) {
         this.mView = mView;
-        this.mContext = mContext;
         mModel = new EditFoodModel(mContext);
     }
 
@@ -47,8 +49,6 @@ public class EditFoodPresenter implements IEditFoodContract.IPresenter, IEditFoo
      */
     @Override
     public void onSuccessful(String message) {
-        Intent intent = new Intent("UPDATE_LIST");
-        mContext.sendBroadcast(intent);
         mView.onSucessful("" + message);
     }
 
@@ -80,7 +80,7 @@ public class EditFoodPresenter implements IEditFoodContract.IPresenter, IEditFoo
      * Hủy view
      */
     @Override
-    public void onDestroy() {
+    public void onDestroyPresenter() {
         if (mView != null)
             mView = null;
     }

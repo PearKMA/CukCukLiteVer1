@@ -1,6 +1,5 @@
 package vn.com.misa.cukcuklitever1.main;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,7 +20,7 @@ import vn.com.misa.cukcuklitever1.view_custom.CircleImageView;
 /**
  * create by lvhung on 5/24/2019
  */
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, IMainActivityContract.View{
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, IMainActivityContract.View {
 
     @BindView(R.id.tvTitleToolbar)
     TextView tvTitleToolbar;            //hiển thị tên fragment đang hiển thị
@@ -34,13 +33,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @BindView(R.id.drawerLayout)
     DrawerLayout drawerLayout;          //
     @BindView(R.id.navView)            //menu
-    NavigationView navView;             //
+            NavigationView navView;             //
 
     private IMainActivityContract.Presenter presenter;
 
     /**
      * get layout id để set content view
-     * @return
+     * create by lvhung on 5/29/2019
+     *
+     * @return id
      */
     @Override
     protected int getIdLayout() {
@@ -50,37 +51,35 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     /**
      * setup các view
-     * @param savedInstanceState
+     * create by lvhung on 5/29/2019
      */
     @Override
-    public void initView(Bundle savedInstanceState) {
+    public void initView() {
         ivAvatar = findViewById(R.id.ivAvatar); //butter knife không bind được
         ivLoginFrom = findViewById(R.id.ivLoginFrom);
         tvNameUser = findViewById(R.id.tvNameUser);
         tvEmail = findViewById(R.id.tvEmail);
-        presenter=new MainActivityPresenter(this);
-        setUpNavDrawer(savedInstanceState);
+        presenter = new MainActivityPresenter(this);
+        setUpNavDrawer();
     }
 
     /**
      * setup navigation drawer
-     * @param savedInstanceState lưu trạng thái
+     * create by lvhung on 5/29/2019
      */
-    private void setUpNavDrawer(Bundle savedInstanceState) {
+    private void setUpNavDrawer() {
         navView.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, getToolbar(),
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
-        if (savedInstanceState == null) {
-            presenter.onMenuSelected(this);
-            navView.setCheckedItem(R.id.nav_menu);
-        }
+        presenter.onMenuSelected(this);
+        navView.setCheckedItem(R.id.nav_menu);
     }
 
     /**
      * đóng navigation drawer đang mở khi nhấn back
+     * create by lvhung on 5/29/2019
      */
     @Override
     public void onBackPressed() {
@@ -93,52 +92,54 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     /**
      * Xử lý item được chọn trong navigation drawer
-     * @param menuItem  item trong menu
+     * create by lvhung on 5/29/2019
+     *
+     * @param menuItem item trong menu
      * @return
      */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        switch (menuItem.getItemId()){
+        switch (menuItem.getItemId()) {
             case R.id.nav_sale:
-                tvTitleToolbar.setText(""+getString(R.string.sale_nav));
-                Toast.makeText(this,"Đang thi công!",Toast.LENGTH_SHORT).show();
+                tvTitleToolbar.setText("" + getString(R.string.sale_nav));
+                Toast.makeText(this, "Đang thi công!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_menu:
                 presenter.onMenuSelected(this);
                 break;
             case R.id.nav_report:
-                tvTitleToolbar.setText(""+getString(R.string.report_nav));
-                Toast.makeText(this,"Đang thi công!",Toast.LENGTH_SHORT).show();
+                tvTitleToolbar.setText("" + getString(R.string.report_nav));
+                Toast.makeText(this, "Đang thi công!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_sync:
-                Toast.makeText(this,"Đang thi công!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Đang thi công!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_setting:
-                Toast.makeText(this,"Đang thi công!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Đang thi công!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_link:
-                Toast.makeText(this,"Đang thi công!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Đang thi công!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_notification:
-                Toast.makeText(this,"Đang thi công!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Đang thi công!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_share:
-                Toast.makeText(this,"Đang thi công!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Đang thi công!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_rate:
-                Toast.makeText(this,"Đang thi công!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Đang thi công!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_feedback:
-                Toast.makeText(this,"Đang thi công!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Đang thi công!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_info:
-                Toast.makeText(this,"Đang thi công!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Đang thi công!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_setPassword:
-                Toast.makeText(this,"Đang thi công!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Đang thi công!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_logout:
-                Toast.makeText(this,"Đang thi công!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Đang thi công!", Toast.LENGTH_SHORT).show();
                 break;
         }
         return true;
@@ -146,6 +147,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     /**
      * đóng navigation drawer khi chọn menu hoặc back
+     * create by lvhung on 5/29/2019
      */
     @Override
     public void closeNavDrawer() {
@@ -154,6 +156,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     /**
      * add MenuFoodFragment vào activity
+     * create by lvhung on 5/29/2019
      */
     @Override
     public void showMenuFragment(String title) {

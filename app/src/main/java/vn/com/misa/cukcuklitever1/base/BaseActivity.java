@@ -18,13 +18,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getIdLayout());
         setupToolbar();
         bindViews();
-        initView(savedInstanceState);
+        initView();
     }
 
     /**
      * Triển khai các view
      */
-    public void initView(Bundle savedInstanceState) {
+    public void initView() {
 
     }
 

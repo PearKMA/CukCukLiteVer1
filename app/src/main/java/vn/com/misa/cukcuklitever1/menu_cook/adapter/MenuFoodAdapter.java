@@ -21,6 +21,9 @@ import vn.com.misa.cukcuklitever1.R;
 import vn.com.misa.cukcuklitever1.menu_cook.entity.Food;
 import vn.com.misa.cukcuklitever1.view_custom.CircleImageView;
 
+/**
+ * create by lvhung on 5/29/2019
+ */
 public class MenuFoodAdapter extends ArrayAdapter<Food> {
     private Activity context;       //màn hình sử dụng
     private int resource;           //layout cho từng dòng hiển thị

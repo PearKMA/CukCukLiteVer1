@@ -30,11 +30,20 @@ public class DialogPriceFood extends DialogFragment {
     Button btnDone;
     Unbinder unbinder;
     int price=-1;
+
+    /**
+     * callback trả về giá đã nhập
+     */
     public interface OnInputListener {
         void sendInput(int input);
     }
 
     public OnInputListener onInputListener;
+
+    /**
+     * Khởi tạo fragment
+     * @return  fragment
+     */
     public static DialogPriceFood newInstance() {
         Bundle args = new Bundle();
         DialogPriceFood fragment = new DialogPriceFood();
@@ -42,17 +51,29 @@ public class DialogPriceFood extends DialogFragment {
         return fragment;
     }
 
+    /**
+     * Set style cho dialog để kích thước không bị co lại
+     * @param savedInstanceState trạng thái
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Light_Dialog_NoActionBar_MinWidth);
     }
 
+    /**
+     * xử lý các sự kiện khi chọn
+     * @param inflater  chuyển layout thành dạng java
+     * @param container view chứa dialog
+     * @param savedInstanceState    trạng thái
+     * @return  view
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_price, container);
         unbinder = ButterKnife.bind(this, view);
+        //Kiểm tra giá trị nhập vào
         etPrice.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -70,6 +91,7 @@ public class DialogPriceFood extends DialogFragment {
             public void afterTextChanged(Editable s) {
             }
         });
+        //Đóng dialog
         ivClose.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -88,6 +110,7 @@ public class DialogPriceFood extends DialogFragment {
                 return true;
             }
         });
+        //Trả về giá trị và đóng dialog
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,7 +130,10 @@ public class DialogPriceFood extends DialogFragment {
         return view;
     }
 
-
+    /**
+     * gán callback khi được khởi tạo
+     * @param context chứa dialog
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -117,9 +143,14 @@ public class DialogPriceFood extends DialogFragment {
             Log.e("TAG", "onAttach: " + e.getMessage());
         }
     }
+
+    /**
+     * Hủy ButterKnife
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        onInputListener=null;
     }
 }

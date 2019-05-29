@@ -1,34 +1,35 @@
 package vn.com.misa.cukcuklitever1.menu_cook;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 
 import vn.com.misa.cukcuklitever1.menu_cook.entity.Food;
 
+/**
+ * create by lvhung on 5/29/2019
+ */
 public interface IMenuFoodContract {
     interface View {
         void showData(ArrayList<Food> listFood);        //hiển thị tất cả thực đơn có trong database
 
-        void showAddFood();
+        void showAddFood(); //Hiển thị màn hình thêm món
 
-        void showEditFood(Food food);
+        void showEditFood(Food food);   //hiện màn hình chỉnh sửa món
 
     }
 
     interface Presenter {
 
-        void setFoodData(Context context);
+        void setFoodData();     //lấy danh sách và hiển thị lên view
 
-        void addFood();
+        void addFood();     //xử lý thêm món
 
-        void editFood(Food food);
+        void editFood(Food food);   //Xử lý sửa món
 
-        void destroyActivity();
+        void destroyActivity();     //xử lý khi destroy view
     }
 
     interface Model {
-        ArrayList<Food> getFood();
+        ArrayList<Food> getFood();      //lấy toàn bộ danh sách món trong database
     }
 
 }

@@ -96,6 +96,7 @@ public class SQLiteFoodDataController extends SQLiteOpenHelper {
                 result = true;
         } catch (SQLException e) {
             e.printStackTrace();
+            result = false;
         } finally {
             close();
         }
@@ -191,10 +192,14 @@ public class SQLiteFoodDataController extends SQLiteOpenHelper {
     private void openDatabase() throws SQLException {
         //nếu chưa database thì copy từ assets
         if (!checkExistDatabase()) {
-            this.getReadableDatabase();
+            try {
+                copyDataBase();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         try {
-            copyDataBase();
+            this.getReadableDatabase();
             database = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.OPEN_READWRITE);
         } catch (Exception e) {
             throw new Error("Error coppying database");

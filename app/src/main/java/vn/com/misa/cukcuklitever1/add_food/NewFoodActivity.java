@@ -41,11 +41,9 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
 
     /**
      * Xử lý các setup & sự kiện cho view
-     *
-     * @param savedInstanceState trạng thái
      */
     @Override
-    public void initView(Bundle savedInstanceState) {
+    public void initView() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         tvTitleToolbar.setText("" + getString(R.string.add_food));
@@ -69,7 +67,7 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
             price = mPrice;
         }
         String unit = tvUnitFood.getText().toString().trim();
-        String color = "#" + Integer.toHexString(ContextCompat.getColor(this, R.color.main_color) & 0x00ffffff);
+        String color = "#0973b9" ;
         String icon = "file:///android_asset/icon/ic_default.png";
         mPresenter.checkInput(name, price, unit, color, icon);
     }

@@ -1,5 +1,8 @@
 package vn.com.misa.cukcuklitever1.menu_cook.entity;
 
+/**
+ * create by lvhung on 5/29/2019
+ */
 public class Food {
     private int id;
     private String name;
