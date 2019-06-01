@@ -1,5 +1,6 @@
 package vn.com.misa.cukcuklitever1.menu_cook.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -11,13 +12,12 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
-import java.text.NumberFormat;
 import java.util.List;
-import java.util.Locale;
 
 import vn.com.misa.cukcuklitever1.R;
+import vn.com.misa.cukcuklitever1.convert_string.ConvertCurrencyAdapter;
+import vn.com.misa.cukcuklitever1.convert_string.IPriceTarget;
 import vn.com.misa.cukcuklitever1.menu_cook.entity.Food;
 import vn.com.misa.cukcuklitever1.view_custom.CircleImageView;
 
@@ -28,12 +28,13 @@ public class MenuFoodAdapter extends ArrayAdapter<Food> {
     private Activity context;       //màn hình sử dụng
     private int resource;           //layout cho từng dòng hiển thị
     private List<Food> objects;     //danh sách nguồn dữ liệu
-
+    private IPriceTarget mPriceTarget;
     public MenuFoodAdapter(@NonNull Activity context, int resource, @NonNull List<Food> objects) {
         super(context, resource, objects);
         this.context=context;
         this.resource = resource;
         this.objects=objects;
+        mPriceTarget = new ConvertCurrencyAdapter();
     }
 
     /**
@@ -48,7 +49,7 @@ public class MenuFoodAdapter extends ArrayAdapter<Food> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         //inflate layout
         LayoutInflater inflater=this.context.getLayoutInflater();
-        View row = inflater.inflate(this.resource, null);
+        @SuppressLint("ViewHolder") View row = inflater.inflate(this.resource, null);
         //find id
         CircleImageView ivIconFood =  row.findViewById(R.id.ivIconFood);
         TextView tvNameFood =row.findViewById(R.id.tvNameFood);
@@ -56,11 +57,12 @@ public class MenuFoodAdapter extends ArrayAdapter<Food> {
         TextView tvStatus =  row.findViewById(R.id.tvStatusFood);
         //hiển thị dữ liệu của 1 item lên listview
         Food food = this.objects.get(position);
-        Glide.with(this.context).asBitmap().load(food.getIcon()).into(ivIconFood);
+        String PATH = "file:///android_asset/icon/";
+        Glide.with(this.context).asBitmap().load(PATH +food.getIcon()).into(ivIconFood);
         ivIconFood.setBackgroundColor(Color.parseColor(food.getColor()));
         tvNameFood.setText(food.getName());
         //chuyển đổi đơn vị tiền
-        String price = this.context.getResources().getString(R.string.price_food)+" "+String.format("%,d", food.getPrice());
+        String price =this.context.getString(R.string.price_food)+ mPriceTarget.getPriceString(food.getPrice());
         tvPrice.setText(price);
         tvStatus.setVisibility(food.isStatus() ?View.VISIBLE:View.INVISIBLE);
         return row;

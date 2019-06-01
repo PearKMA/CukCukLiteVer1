@@ -13,7 +13,7 @@ public class MenuFoodPresenter implements IMenuFoodContract.Presenter {
     private IMenuFoodContract.View mView;
     private IMenuFoodContract.Model mModel;
 
-    public MenuFoodPresenter(Activity context, IMenuFoodContract.View mView) {
+    MenuFoodPresenter(Activity context, IMenuFoodContract.View mView) {
         this.mView = mView;
         mModel = new MenuFoodModel(context);
     }

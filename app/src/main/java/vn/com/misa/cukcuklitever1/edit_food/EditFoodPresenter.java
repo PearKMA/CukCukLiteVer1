@@ -1,7 +1,6 @@
 package vn.com.misa.cukcuklitever1.edit_food;
 
 import android.app.Activity;
-import android.content.Intent;
 
 /**
  * Xử lý giữa thông tin chỉnh sửa với database
@@ -62,7 +61,7 @@ public class EditFoodPresenter implements IEditFoodContract.IPresenter, IEditFoo
      * @param status    tình trạng
      */
     @Override
-    public void checkInput(int id,String name, int price, String unit, String color, String icon, boolean status) {
+    public void checkInput(int id,String name, double price, String unit, String color, String icon, boolean status) {
         mModel.editFood(id,name,price,unit,color,icon,status,this);
     }
 

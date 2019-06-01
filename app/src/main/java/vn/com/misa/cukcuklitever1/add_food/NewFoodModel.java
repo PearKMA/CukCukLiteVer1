@@ -6,10 +6,13 @@ import android.content.Intent;
 import java.util.ArrayList;
 
 import vn.com.misa.cukcuklitever1.R;
-import vn.com.misa.cukcuklitever1.add_food.entity.Unit;
 import vn.com.misa.cukcuklitever1.database.SQLiteFoodDataController;
 import vn.com.misa.cukcuklitever1.menu_cook.entity.Food;
 
+/**
+ * Xử lý dữ liệu trong database
+ * Edited by lvhung at 5/30/2019
+ */
 public class NewFoodModel implements INewFoodContract.IModel {
     private ArrayList<Food> foods;
     private SQLiteFoodDataController mDatabase;
@@ -17,6 +20,7 @@ public class NewFoodModel implements INewFoodContract.IModel {
 
     /**
      * Constructor
+     * Edited by lvhung at 5/30/2019
      * @param mContext context để lấy database
      */
     NewFoodModel(Context mContext) {
@@ -29,6 +33,7 @@ public class NewFoodModel implements INewFoodContract.IModel {
 
     /**
      * Xử lý các thông tin nhập vào
+     * Edited by lvhung at 5/30/2019
      * @param name  tên món
      * @param price giá
      * @param unit  đơn vị tính
@@ -37,7 +42,7 @@ public class NewFoodModel implements INewFoodContract.IModel {
      * @param iAddFinished  interface trả về kết quả
      */
     @Override
-    public void onAddNewFood(String name, int price, String unit, String color, String icon, IAddFinished iAddFinished) {
+    public void onAddNewFood(String name, double price, String unit, String color, String icon, IAddFinished iAddFinished) {
         if (name.isEmpty()){
             iAddFinished.onNameFoodEmpty();
         }else if (unit.isEmpty()){

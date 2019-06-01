@@ -13,4 +13,6 @@
     <color name="text_color_menu_food">#606060</color>
     <color name="button_color">#2b98f0</color>
     <color name="red">#ff0000</color>
+    <color name="button_calculator">#ededed</color>
+    <color name="text_high_light">#9dc7e3</color>
 </resources>

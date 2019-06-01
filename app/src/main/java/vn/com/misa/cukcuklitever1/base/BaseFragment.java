@@ -5,8 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,6 +12,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
+ * base fragment
  * create by lvhung on 5/24/2019
  */
 public abstract class BaseFragment extends Fragment {
@@ -29,6 +28,7 @@ public abstract class BaseFragment extends Fragment {
 
     /**
      * unbind butter knie khi fragment bị hủy
+     * Edited by lvhung at 5/30/2019
      */
     @Override
     public void onDestroyView() {
@@ -36,6 +36,11 @@ public abstract class BaseFragment extends Fragment {
         unbinder.unbind();
     }
 
+    /**
+     * Lấy id layout được định nghĩa ở class con
+     * Edited by lvhung at 5/30/2019
+     * @return  id
+     */
     protected abstract int getLayoutId();
 
 }

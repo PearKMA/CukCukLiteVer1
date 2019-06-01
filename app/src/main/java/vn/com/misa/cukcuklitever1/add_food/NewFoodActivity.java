@@ -1,7 +1,5 @@
 package vn.com.misa.cukcuklitever1.add_food;
 
-import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,12 +11,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import vn.com.misa.cukcuklitever1.R;
 import vn.com.misa.cukcuklitever1.base.BaseActivity;
+import vn.com.misa.cukcuklitever1.convert_string.ConvertCurrencyAdapter;
+import vn.com.misa.cukcuklitever1.convert_string.IPriceTarget;
 import vn.com.misa.cukcuklitever1.dialog.DialogPriceFood;
 
+/**
+ * Hiển thị các thông tin thêm mới món
+ */
 public class NewFoodActivity extends BaseActivity implements INewFoodContract.IView, View.OnClickListener, DialogPriceFood.OnInputListener {
 
     @BindView(R.id.tvTitleToolbar)
@@ -36,18 +40,19 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
     @BindView(R.id.btnAdd)
     Button btnAdd;
     private INewFoodContract.IPresenter mPresenter;
-    private Toast mToast;
-    private int mPrice;  //Lưu giá bán khi thay đổi
-
+    private double mPrice;  //Lưu giá bán khi thay đổi
+    private IPriceTarget mPriceTarget; //Chuyển đổi double sang dạng tiền tệ
     /**
      * Xử lý các setup & sự kiện cho view
+     * Edited by lvhung at 5/30/2019
      */
     @Override
     public void initView() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        tvTitleToolbar.setText("" + getString(R.string.add_food));
-        mPresenter = new NewFoodPresenter(this,this);
+        tvTitleToolbar.setText(getString(R.string.add_food));
+        mPresenter = new NewFoodPresenter(this, this);
+        mPriceTarget = new ConvertCurrencyAdapter();
         btnAdd.setOnClickListener(this);
         tvPriceFood.setOnClickListener(this);
         tvUnitFood.setOnClickListener(this);
@@ -57,18 +62,21 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
 
     /**
      * Lấy dữ liệu user nhập vào và kiểm tra
+     * Edited by lvhung at 5/30/2019
      */
     private void getInput() {
         String name = etNameFood.getText().toString().trim();
-        int price = 0;
+        double price;
         try {
-            price = Integer.parseInt(tvPriceFood.getText().toString().trim());
+            //Chuyển #.###,## -> ####,## -> ####.##
+            String s = tvPriceFood.getText().toString().trim().replace(".","");
+            price = Double.parseDouble(s.replaceAll(",", "."));
         } catch (NumberFormatException e) {
             price = mPrice;
         }
         String unit = tvUnitFood.getText().toString().trim();
-        String color = "#0973b9" ;
-        String icon = "file:///android_asset/icon/ic_default.png";
+        String color = "#0973b9";
+        String icon = "ic_default.png";
         mPresenter.checkInput(name, price, unit, color, icon);
     }
 
@@ -120,6 +128,7 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
 
     /**
      * Thông báo khi tên món bị lỗi
+     * Edited by lvhung at 5/30/2019
      */
     @Override
     public void nameFoodError() {
@@ -128,6 +137,7 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
 
     /**
      * Thông báo khi đơn vị tính bị lỗi
+     * Edited by lvhung at 5/30/2019
      */
     @Override
     public void unitFoodError() {
@@ -136,6 +146,7 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
 
     /**
      * Thông báo thêm thành công
+     * Edited by lvhung at 5/30/2019
      */
     @Override
     public void addSuccessful() {
@@ -145,6 +156,7 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
 
     /**
      * Thông báo thêm thất bại
+     * Edited by lvhung at 5/30/2019
      *
      * @param message kết quả trả về
      */
@@ -155,21 +167,32 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
 
     /**
      * Hiển thị thông báo lỗi lên màn hình
+     * Edited by lvhung at 5/30/2019
      *
      * @param message thông báo
      */
     private void showToast(String message) {
-        mToast = Toast.makeText(this, "" + message, Toast.LENGTH_SHORT);
+        Toast mToast = Toast.makeText(this, "" + message, Toast.LENGTH_SHORT);
         mToast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 200);
         mToast.show();
     }
 
+    /**
+     * Hủy view
+     * Edited by lvhung at 5/30/2019
+     */
     @Override
     protected void onDestroy() {
         mPresenter.onDestroy();
         super.onDestroy();
     }
 
+    /**
+     * Xử lý sự kiện cho từng nút
+     * Edited by lvhung at 5/30/2019
+     *
+     * @param v view gán sự kiện
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -177,7 +200,7 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
                 getInput();
                 break;
             case R.id.tvPriceFood:
-                DialogPriceFood dialog = DialogPriceFood.newInstance();
+                DialogPriceFood dialog = DialogPriceFood.newInstance(0);
                 dialog.show(getSupportFragmentManager(), "Price");
                 break;
             case R.id.tvUnitFood:
@@ -194,12 +217,14 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
 
     /**
      * Lấy dữ liệu được gửi về từ dialog
+     * Edited by lvhung at 5/30/2019
      *
      * @param input giá được nhập
      */
     @Override
-    public void sendInput(int input) {
+    public void sendInput(double input) {
         mPrice = input;
-        tvPriceFood.setText(String.format("%,d", input));
+        tvPriceFood.setText(mPriceTarget.getPriceString(mPrice));
+
     }
 }

@@ -4,6 +4,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import vn.com.misa.cukcuklitever1.R;
 import vn.com.misa.cukcuklitever1.base.BaseActivity;
@@ -38,8 +40,8 @@ public class UnitFoodActivity extends BaseActivity {
      */
     @Override
     public void initView() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        tvTitleToolbar.setText("" + getString(R.string.title_unit));
+        tvTitleToolbar.setText(getString(R.string.title_unit));
     }
 }

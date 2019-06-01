@@ -15,17 +15,20 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import vn.com.misa.cukcuklitever1.add_food.entity.Unit;
 import vn.com.misa.cukcuklitever1.menu_cook.entity.Food;
 
 /**
  * Lấy danh sách các thực đơn trong database
+ * Edited by lvhung at 5/30/2019
  */
 public class SQLiteFoodDataController extends SQLiteOpenHelper {
     private String DB_PATH = "//data//data//%s//databases//";
     private static String DB_NAME = "Food.sqlite";
     private SQLiteDatabase database;
     private final Context mContext;
-    private final String NAME_TABLE = "food";
+    private final String FOOD_TABLE = "food";
+    private final String UNIT_TABLE = "unit";
 
     /**
      * Constructor
@@ -47,22 +50,24 @@ public class SQLiteFoodDataController extends SQLiteOpenHelper {
     public ArrayList<Food> getAllFood() {
         ArrayList<Food> foods = new ArrayList<>();
         String name, unit, color, icon;
-        int id, price;
+        int id;
+        double price;
         boolean status;
         Food food;
         try {
             openDatabase();
             Cursor cs;
-            String sql = "SELECT * FROM " + NAME_TABLE;
+            String sql = "SELECT * FROM " + FOOD_TABLE;
             cs = database.rawQuery(sql, null);
             while (cs.moveToNext()) {
                 id = cs.getInt(0);
                 name = cs.getString(1);
-                price = cs.getInt(2);
-                unit = cs.getString(3);
+                price = cs.getDouble(2);
+                int idUnit = cs.getInt(3);  //id unit trong table unit
+                unit = getNameUnitById(idUnit);
                 color = cs.getString(4);
                 icon = cs.getString(5);
-                int statusFromSqlite = cs.getInt(6);
+                int statusFromSqlite = cs.getInt(6);    //trạng thái của món trong sqlite; 0: đang mở, 1: ngừng bán
                 status = statusFromSqlite != 0;
                 food = new Food(id, name, price, unit, color, icon, status);
                 foods.add(food);
@@ -76,7 +81,84 @@ public class SQLiteFoodDataController extends SQLiteOpenHelper {
     }
 
     /**
+     * Lấy tất cả danh sách đơn vị tính
+     * create by lvhung on 5/31/2019
+     *
+     * @return danh sách đơn vị tính
+     */
+    public ArrayList<Unit> getAllUnit() {
+        ArrayList<Unit> units = new ArrayList<>();
+        String unitName;
+        int id;
+        Unit unit;
+        try {
+            openDatabase();
+            Cursor cs;
+            String sql = "SELECT * FROM " + UNIT_TABLE;
+            cs = database.rawQuery(sql, null);
+            while (cs.moveToNext()) {
+                id = cs.getInt(0);
+                unitName = cs.getString(1);
+                unit = new Unit(id, unitName);
+                units.add(unit);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
+        return units;
+    }
+
+    /**
+     * Lấy tên đơn vị tính theo id (chỉ dùng trong hàm lấy tất cả danh sách món)
+     * create by lvhung on 5/31/2019
+     *
+     * @param id id của đơn vị tính
+     * @return tên đơn vị tính
+     */
+    private String getNameUnitById(int id) {
+        String name = "";
+        try {
+            String selectQuery = "SELECT * FROM " + UNIT_TABLE + " WHERE id = " + id;
+            Cursor cursor = database.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                name = cursor.getString(1);
+            }
+            cursor.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return name;
+    }
+
+    /**
+     * Thêm mới 1 đơn vị tính
+     * create by lvhung on 5/31/2019
+     *
+     * @param unit đối tượng đơn vị tính
+     * @return kết quả
+     */
+    public boolean insertUnit(Unit unit) {
+        boolean result = false;
+        try {
+            openDatabase();
+            ContentValues cv = new ContentValues();
+            cv.put("unit", unit.getUnit());
+            if (database.insert(UNIT_TABLE, null, cv) > -1)
+                result = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            result = false;
+        } finally {
+            close();
+        }
+        return result;
+    }
+
+    /**
      * Thêm 1 thực đơn vào danh sách
+     * Edited by lvhung at 5/30/2019
      *
      * @param food thực đơn
      * @return kết quả thêm là thành công hay lỗi
@@ -84,15 +166,24 @@ public class SQLiteFoodDataController extends SQLiteOpenHelper {
     public boolean insertFood(Food food) {
         boolean result = false;
         try {
-            openDatabase();
             ContentValues cv = new ContentValues();
             cv.put("name", food.getName());
             cv.put("price", food.getPrice());
-            cv.put("unit", food.getUnit());
+            //tìm id unit theo tên
+            ArrayList<Unit> units = getAllUnit();
+            if (units != null && units.size() > 0) {
+                for (Unit item : units) {
+                    if (item.getUnit().equalsIgnoreCase(food.getUnit())) {
+                        cv.put("unit", item.getId());
+                        break;
+                    }
+                }
+            }
             cv.put("color", food.getColor());
             cv.put("icon", food.getIcon());
             cv.put("status", food.isStatus() ? 1 : 0);
-            if (database.insert(NAME_TABLE, null, cv) > -1)
+            openDatabase();
+            if (database.insert(FOOD_TABLE, null, cv) > -1)
                 result = true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -105,6 +196,7 @@ public class SQLiteFoodDataController extends SQLiteOpenHelper {
 
     /**
      * Sửa thực đơn
+     * Edited by lvhung at 5/30/2019
      *
      * @param food món đã sửa
      * @param id   id món muốn sửa
@@ -113,15 +205,24 @@ public class SQLiteFoodDataController extends SQLiteOpenHelper {
     public boolean editFood(Food food, int id) {
         boolean result = false;
         try {
-            openDatabase();
             ContentValues cv = new ContentValues();
             cv.put("name", food.getName());
             cv.put("price", food.getPrice());
-            cv.put("unit", food.getUnit());
+            //tìm id unit theo tên
+            ArrayList<Unit> units = getAllUnit();
+            if (units != null && units.size() > 0) {
+                for (Unit item : units) {
+                    if (item.getUnit().equalsIgnoreCase(food.getUnit())) {
+                        cv.put("unit", item.getId());
+                        break;
+                    }
+                }
+            }
             cv.put("color", food.getColor());
             cv.put("icon", food.getIcon());
             cv.put("status", food.isStatus() ? 1 : 0);
-            if (database.update(NAME_TABLE, cv, "id ='" + id + "'", null) > 0) {
+            openDatabase();
+            if (database.update(FOOD_TABLE, cv, "id = " + id, null) > 0) {
                 result = true;
             }
         } catch (SQLException e) {
@@ -132,11 +233,65 @@ public class SQLiteFoodDataController extends SQLiteOpenHelper {
         return result;
     }
 
+    /**
+     * Chỉnh sửa đươn vị tính
+     * create by lvhung on 5/31/2019
+     *
+     * @param unit đơn vị tính
+     * @param id   id đơn vị tính
+     * @return kết quả
+     */
+    public boolean editUnit(Unit unit, int id) {
+        boolean result = false;
+        try {
+            openDatabase();
+            ContentValues cv = new ContentValues();
+            cv.put("unit", unit.getUnit());
+            if (database.update(UNIT_TABLE, cv, "id = " + id, null) > 0) {
+                result = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
+        return result;
+    }
+
+    /**
+     * Xóa món ăn theo id
+     * Edited by lvhung at 5/31/2019
+     *
+     * @param id id món
+     * @return kết quả
+     */
     public boolean removeFood(int id) {
         boolean result = false;
         try {
             openDatabase();
-            int c = database.delete(NAME_TABLE, "id ='" + id + "'", null);
+            int c = database.delete(FOOD_TABLE, "id = " + id, null);
+            if (c > 0) {
+                result = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
+        return result;
+    }
+
+    /**
+     * Xóa đơn vị tính theo id
+     *
+     * @param id id đơn vị tính
+     * @return kết quả
+     */
+    public boolean removeUnit(int id) {
+        boolean result = false;
+        try {
+            openDatabase();
+            int c = database.delete(UNIT_TABLE, "id = " + id, null);
             if (c > 0) {
                 result = true;
             }
@@ -151,6 +306,7 @@ public class SQLiteFoodDataController extends SQLiteOpenHelper {
     /**
      * Kiểm tra database đã có trong thiết bị hay chưa
      * create by lvhung on 5/25/2019
+     * Edited by lvhung at 5/30/2019
      *
      * @return boolean
      */
@@ -167,25 +323,40 @@ public class SQLiteFoodDataController extends SQLiteOpenHelper {
     /**
      * Copy database từ assets vào thiết bị
      * create by lvhung on 5/25/2019
+     * Edited by lvhung at 5/30/2019
      *
      * @throws IOException báo ngoại lệ khi copy không thành công
      */
     private void copyDataBase() throws IOException {
-        InputStream mInput = mContext.getAssets().open(DB_NAME);
-        OutputStream mOutput = new FileOutputStream(DB_PATH + DB_NAME);
-        byte[] buffer = new byte[1024];
-        int lenght;
-        while ((lenght = mInput.read(buffer)) > 0) {
-            mOutput.write(buffer, 0, lenght);
+        InputStream mInput = null;
+        OutputStream mOutput = null;
+        try {
+            mInput = mContext.getAssets().open(DB_NAME);
+            mOutput = new FileOutputStream(DB_PATH + DB_NAME);
+            byte[] buffer = new byte[1024];
+            int lenght;
+            while ((lenght = mInput.read(buffer)) > 0) {
+                mOutput.write(buffer, 0, lenght);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (mOutput != null) {
+                mOutput.flush();
+            }
+            if (mOutput != null) {
+                mOutput.close();
+            }
+            if (mInput != null) {
+                mInput.close();
+            }
         }
-        mOutput.flush();
-        mOutput.close();
-        mInput.close();
     }
 
     /**
      * Mở database
      * create by lvhung on 5/25/2019
+     * Edited by lvhung at 5/30/2019
      *
      * @throws SQLException ngoại lệ khi mở thất bại
      */
@@ -206,9 +377,13 @@ public class SQLiteFoodDataController extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * đóng database
+     * Edited by lvhung at 5/30/2019
+     */
     @Override
     public synchronized void close() {
-        if (database != null)
+        if (database != null&&database.isOpen())
             database.close();
         super.close();
     }

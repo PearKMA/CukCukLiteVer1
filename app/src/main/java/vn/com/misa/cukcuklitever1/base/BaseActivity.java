@@ -8,9 +8,14 @@ import android.support.v7.widget.Toolbar;
 import butterknife.ButterKnife;
 import vn.com.misa.cukcuklitever1.R;
 
+/**
+ * Base activity
+ * Edited by lvhung at 5/30/2019
+ *
+ */
 public abstract class BaseActivity extends AppCompatActivity {
     private Toolbar mToolbar;
-    ;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -23,6 +28,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * Triển khai các view
+     * Edited by lvhung at 5/30/2019
      */
     public void initView() {
 
@@ -30,6 +36,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * Nếu activity có toolbar nó sẽ tự động add
+     * Edited by lvhung at 5/30/2019
      */
     public void setupToolbar() {
         mToolbar = findViewById(R.id.toolbar);
@@ -41,6 +48,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * các view con sẽ tự động triển khai butter knife
+     * Edited by lvhung at 5/30/2019
      */
     private void bindViews() {
         ButterKnife.bind(this);
@@ -48,7 +56,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * Trả về toolbar nếu class con cần tới
-     *
+     *Edited by lvhung at 5/30/2019
      * @return toolbar
      */
     @Nullable
@@ -58,7 +66,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * lấy id layout mà class con sử dụng
-     *
+     *Edited by lvhung at 5/30/2019
      * @return id để setContentView
      */
     protected abstract int getIdLayout();

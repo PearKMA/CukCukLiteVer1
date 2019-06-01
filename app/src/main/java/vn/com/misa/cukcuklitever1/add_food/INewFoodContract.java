@@ -13,7 +13,7 @@ public interface INewFoodContract {
     }
 
     interface IPresenter {
-        void checkInput(String name, int price, String unit, String color, String icon);    //check các thông tin có đúng hay không
+        void checkInput(String name, double price, String unit, String color, String icon);    //check các thông tin có đúng hay không
 
         void onDestroy(); //hủy view khi view bị hủy
     }
@@ -29,6 +29,6 @@ public interface INewFoodContract {
             void onSuccessful();     //trả về presenter khi thêm thành công
         }
 
-        void onAddNewFood(String name, int price, String unit, String color, String icon, IAddFinished iAddFinished); //xử lý dữ liệu và trả về kết quả
+        void onAddNewFood(String name, double price, String unit, String color, String icon, IAddFinished iAddFinished); //xử lý dữ liệu và trả về kết quả
     }
 }

@@ -13,9 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import butterknife.BindView;
 import vn.com.misa.cukcuklitever1.R;
@@ -41,7 +41,7 @@ public class MenuFoodFragment extends BaseFragment implements IMenuFoodContract.
      * Khởi tạo fragment
      * create by lvhung on 5/25/2019
      *
-     * @return
+     * @return fragment
      */
     public static MenuFoodFragment newInstance() {
         Bundle args = new Bundle();
@@ -60,7 +60,7 @@ public class MenuFoodFragment extends BaseFragment implements IMenuFoodContract.
                     mPresenter.setFoodData();
             }
         };
-        getActivity().registerReceiver(mBroadcast,
+        Objects.requireNonNull(getActivity()).registerReceiver(mBroadcast,
                 filter);
         super.onCreate(savedInstanceState);
     }
@@ -130,7 +130,7 @@ public class MenuFoodFragment extends BaseFragment implements IMenuFoodContract.
      */
     @Override
     public void showData(final ArrayList<Food> listFood) {
-        mAdapter = new MenuFoodAdapter(getActivity(), R.layout.item_menu_food, listFood);
+        mAdapter = new MenuFoodAdapter(Objects.requireNonNull(getActivity()), R.layout.item_menu_food, listFood);
         lvListMenu.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
         lvListMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -164,7 +164,7 @@ public class MenuFoodFragment extends BaseFragment implements IMenuFoodContract.
         intent.putExtra("COLOR", food.getColor());
         intent.putExtra("ICON", food.getIcon());
         intent.putExtra("STATUS", food.isStatus());
-        getActivity().startActivity(intent);
+        Objects.requireNonNull(getActivity()).startActivity(intent);
 
     }
 
@@ -175,7 +175,7 @@ public class MenuFoodFragment extends BaseFragment implements IMenuFoodContract.
     @Override
     public void onDestroy() {
         if (mBroadcast != null) {
-            getActivity().unregisterReceiver(mBroadcast);
+            Objects.requireNonNull(getActivity()).unregisterReceiver(mBroadcast);
         }
         mPresenter.destroyActivity();
         super.onDestroy();

@@ -21,9 +21,9 @@ public class EditFoodModel implements IEditFoodContract.IModel {
 
     /**
      * constructor
-     * @param mContext
+     * @param mContext context
      */
-    public EditFoodModel(Activity mContext) {
+    EditFoodModel(Activity mContext) {
         if (foods == null)
             foods = new ArrayList<>();
         if (mDatabase == null)
@@ -59,7 +59,7 @@ public class EditFoodModel implements IEditFoodContract.IModel {
      * @param iEditFinish   trả kết quả chỉnh sửa
      */
     @Override
-    public void editFood(int id,String name, int price, String unit, String color, String icon, boolean status, IEditFinish iEditFinish) {
+    public void editFood(int id,String name, double price, String unit, String color, String icon, boolean status, IEditFinish iEditFinish) {
         if (name.isEmpty()){
             iEditFinish.onNameFoodEmpty();
         }else if (unit.isEmpty()){

@@ -6,7 +6,7 @@ package vn.com.misa.cukcuklitever1.menu_cook.entity;
 public class Food {
     private int id;
     private String name;
-    private int price;
+    private double price;
     private String unit;
     private String color;
     private String icon;
@@ -15,7 +15,7 @@ public class Food {
     public Food() {
     }
 
-    public Food(int id, String name, int price, String unit, String color, String icon, boolean status) {
+    public Food(int id, String name, double price, String unit, String color, String icon, boolean status) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -24,7 +24,7 @@ public class Food {
         this.icon = icon;
         this.status = status;
     }
-    public Food( String name, int price, String unit, String color, String icon, boolean status) {
+    public Food( String name, double price, String unit, String color, String icon, boolean status) {
         this.name = name;
         this.price = price;
         this.unit = unit;
@@ -48,11 +48,11 @@ public class Food {
         this.name = name;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

@@ -1,56 +1,349 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/padding_big">
+
     <FrameLayout
         android:layout_width="match_parent"
-        android:paddingStart="@dimen/padding_big"
-        android:paddingEnd="@dimen/padding_big"
-        android:paddingTop="@dimen/padding_big"
-        android:paddingBottom="@dimen/padding_big"
+        android:layout_height="wrap_content"
         android:background="@color/main_color"
-        android:layout_height="wrap_content">
+        android:paddingStart="@dimen/padding_big"
+        android:paddingTop="@dimen/padding_big"
+        android:paddingEnd="@dimen/padding_big"
+        android:paddingBottom="@dimen/padding_big">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="start"
             android:text="@string/food_price"
-            android:textColor="@color/white"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_gravity="start"/>
+            android:textColor="@color/white" />
+
         <ImageView
             android:id="@+id/ivClose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_close"
-            android:layout_gravity="end"/>
+            android:layout_gravity="end"
+            android:src="@drawable/ic_close" />
     </FrameLayout>
+
     <EditText
         android:id="@+id/etPrice"
-        android:layout_marginStart="@dimen/margin_big"
-        android:layout_marginEnd="@dimen/margin_big"
-        android:layout_marginTop="@dimen/margin_big"
-        android:minHeight="@dimen/size_icon_food"
         android:layout_width="match_parent"
-        android:inputType="text"
-        android:text="@string/default_price"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:gravity="center_vertical|end"
-        android:paddingEnd="@dimen/padding_normal"
-        android:paddingStart="@dimen/padding_normal"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_big"
+        android:layout_marginTop="@dimen/margin_big"
+        android:layout_marginEnd="@dimen/margin_big"
+        android:background="@drawable/border"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColorHighlight="@color/text_high_light"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:gravity="center_vertical|end"
+        android:inputType="text"
+        android:maxLines="1"
+        android:minHeight="@dimen/size_icon_food"
+        android:paddingStart="@dimen/padding_normal"
+        android:paddingEnd="@dimen/padding_normal"
+        android:text="@string/default_price"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/border"/>
-    <Button
-        android:id="@+id/btnDone"
-        android:layout_width="wrap_content"
+        android:layout_marginStart="@dimen/margin_normal"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvKeyC"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_ketboard"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:background="@drawable/state_textview"
+            android:gravity="center"
+            android:layout_margin="@dimen/margin_normal"
+            android:text="@string/key_c"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:focusable="true" />
+        <TextView
+            android:id="@+id/tvKeyDecrement"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_ketboard"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:background="@drawable/state_textview"
+            android:gravity="center"
+            android:layout_margin="@dimen/margin_normal"
+            android:text="@string/key_decre"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:focusable="true" />
+        <TextView
+            android:id="@+id/tvKeyIncreament"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_ketboard"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:layout_margin="@dimen/margin_normal"
+            android:background="@drawable/state_textview"
+            android:gravity="center"
+            android:text="@string/key_incre"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:focusable="true" />
+        <ImageView
+            android:id="@+id/tvKeyClear"
+            android:layout_width="0dp"
+            android:padding="@dimen/padding_normal"
+            android:layout_height="@dimen/height_ketboard"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/margin_normal"
+            android:clickable="true"
+            android:src="@mipmap/ic_back_keyboard"
+            android:background="@drawable/state_textview"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:focusable="true" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textColor="@color/white"
-        android:layout_marginTop="@dimen/margin_big"
-        android:text="@string/done"
-        android:background="@drawable/state_button"/>
+        android:layout_marginStart="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvKey7"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_ketboard"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:background="@drawable/state_textview"
+            android:gravity="center"
+            android:layout_margin="@dimen/margin_normal"
+            android:text="@string/key_7"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:focusable="true" />
+        <TextView
+            android:id="@+id/tvKey8"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_ketboard"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:background="@drawable/state_textview"
+            android:gravity="center"
+            android:layout_margin="@dimen/margin_normal"
+            android:text="@string/key_8"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:focusable="true" />
+        <TextView
+            android:id="@+id/tvKey9"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_ketboard"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:layout_margin="@dimen/margin_normal"
+            android:background="@drawable/state_textview"
+            android:gravity="center"
+            android:text="@string/key_9"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:focusable="true" />
+        <TextView
+            android:id="@+id/tvKeySub"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_ketboard"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:layout_margin="@dimen/margin_normal"
+            android:background="@drawable/state_textview"
+            android:gravity="center"
+            android:text="@string/key_sub"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:focusable="true" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvKey4"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_ketboard"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:background="@drawable/state_textview"
+            android:gravity="center"
+            android:layout_margin="@dimen/margin_normal"
+            android:text="@string/key_4"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:focusable="true" />
+        <TextView
+            android:id="@+id/tvKey5"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_ketboard"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:background="@drawable/state_textview"
+            android:gravity="center"
+            android:layout_margin="@dimen/margin_normal"
+            android:text="@string/key_5"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:focusable="true" />
+        <TextView
+            android:id="@+id/tvKey6"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_ketboard"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:layout_margin="@dimen/margin_normal"
+            android:background="@drawable/state_textview"
+            android:gravity="center"
+            android:text="@string/key_6"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:focusable="true" />
+        <TextView
+            android:id="@+id/tvKeyAdd"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_ketboard"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:layout_margin="@dimen/margin_normal"
+            android:background="@drawable/state_textview"
+            android:gravity="center"
+            android:text="@string/key_add"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:focusable="true" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvKey1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_ketboard"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:background="@drawable/state_textview"
+            android:gravity="center"
+            android:layout_margin="@dimen/margin_normal"
+            android:text="@string/key_1"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:focusable="true" />
+        <TextView
+            android:id="@+id/tvKey2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_ketboard"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:background="@drawable/state_textview"
+            android:gravity="center"
+            android:layout_margin="@dimen/margin_normal"
+            android:text="@string/key_2"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:focusable="true" />
+        <TextView
+            android:id="@+id/tvKey3"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_ketboard"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:layout_margin="@dimen/margin_normal"
+            android:background="@drawable/state_textview"
+            android:gravity="center"
+            android:text="@string/key_3"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:focusable="true" />
+        <TextView
+            android:id="@+id/tvKeyAbs"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_ketboard"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:layout_margin="@dimen/margin_normal"
+            android:background="@drawable/state_textview"
+            android:gravity="center"
+            android:text="@string/key_abs"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:focusable="true" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvKey0"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_ketboard"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:background="@drawable/state_textview"
+            android:gravity="center"
+            android:layout_margin="@dimen/margin_normal"
+            android:text="@string/key_0"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:focusable="true" />
+        <TextView
+            android:id="@+id/tvKey000"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_ketboard"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:background="@drawable/state_textview"
+            android:gravity="center"
+            android:layout_margin="@dimen/margin_normal"
+            android:text="@string/key_000"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:focusable="true" />
+        <TextView
+            android:id="@+id/tvKeyComma"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_ketboard"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:layout_margin="@dimen/margin_normal"
+            android:background="@drawable/state_textview"
+            android:gravity="center"
+            android:text="@string/key_comma"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:focusable="true" />
+        <TextView
+            android:id="@+id/btnDone"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_ketboard"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:layout_margin="@dimen/margin_normal"
+            android:background="@drawable/state_button"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="@string/done"
+            android:textColor="@color/white"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:focusable="true" />
+
+    </LinearLayout>
 </LinearLayout>

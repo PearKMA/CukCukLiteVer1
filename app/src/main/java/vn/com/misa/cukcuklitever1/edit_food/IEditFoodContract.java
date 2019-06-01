@@ -24,11 +24,11 @@ public interface IEditFoodContract {
 
         void deleteFood(int id, IEditFinish iEditFinish);   //Xử lý xóa món trong db
 
-        void editFood(int id, String name, int price, String unit, String color, String icon, boolean status, IEditFinish iEditFinish); //xử lý sửa món trong db
+        void editFood(int id, String name, double price, String unit, String color, String icon, boolean status, IEditFinish iEditFinish); //xử lý sửa món trong db
     }
 
     interface IPresenter {
-        void checkInput(int id, String name, int price, String unit, String color, String icon, boolean status);    //kiểm tra đầu vào và gửi đến model
+        void checkInput(int id, String name, double price, String unit, String color, String icon, boolean status);    //kiểm tra đầu vào và gửi đến model
 
         void deleteFood(int id);    //Gọi model xử lý xóa
 

@@ -50,4 +50,24 @@
     <string name="delete">Xóa</string>
     <string name="edit_food">Sửa món</string>
     <string name="title_unit">Đơn vị tính</string>
+    <string name="key_c">C</string>
+    <string name="key_decre">Giảm</string>
+    <string name="key_incre">Tăng</string>
+    <string name="key_7">7</string>
+    <string name="key_8">8</string>
+    <string name="key_9">9</string>
+    <string name="key_sub">-</string>
+    <string name="key_4">4</string>
+    <string name="key_5">5</string>
+    <string name="key_6">6</string>
+    <string name="key_add">+</string>
+    <string name="key_1">1</string>
+    <string name="key_2">2</string>
+    <string name="key_3">3</string>
+    <string name="key_abs">"\u00B1"</string>
+    <string name="key_0">0</string>
+    <string name="key_000">000</string>
+    <string name="key_comma">,</string>
+    <string name="key_by">=</string>
+    <string name="number_negative">Giá không được âm</string>
 </resources>
