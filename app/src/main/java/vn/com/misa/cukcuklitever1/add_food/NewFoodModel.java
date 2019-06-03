@@ -31,6 +31,17 @@ public class NewFoodModel implements INewFoodContract.IModel {
         this.mContext = mContext;
     }
 
+    @Override
+    public double convertStringToDouble(String input) {
+        try {
+            //Chuyển #.###,## -> ####,## -> ####.##
+            String s = input.replace(".","");
+            return Double.parseDouble(s.replaceAll(",", "."));
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
     /**
      * Xử lý các thông tin nhập vào
      * Edited by lvhung at 5/30/2019

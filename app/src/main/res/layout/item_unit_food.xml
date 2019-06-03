@@ -1,7 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
-    android:layout_height="match_parent">
-
+    android:padding="@dimen/padding_big"
+    android:layout_height="wrap_content">
+    <android.support.v7.widget.CardView
+        android:layout_width="@dimen/size_icon_food"
+        android:layout_height="@dimen/size_icon_food"
+        app:cardCornerRadius="@dimen/round_corner">
+        <ImageView
+            android:id="@+id/ivCheck"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_check"/>
+    </android.support.v7.widget.CardView>
+    <TextView
+        android:id="@+id/tvNameUnit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        tools:text="@string/food_price"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/black"
+        android:paddingStart="@dimen/padding_big"
+        android:paddingEnd="@dimen/padding_big"/>
+    <ImageView
+        android:id="@+id/ivEdit"
+        android:layout_width="@dimen/size_icon_food"
+        android:layout_height="@dimen/size_icon_food"
+        android:src="@drawable/ic_edit"/>
 </LinearLayout>

@@ -50,6 +50,11 @@ public class NewFoodPresenter implements INewFoodContract.IPresenter,INewFoodCon
             mView=null;
     }
 
+    @Override
+    public double convertToDouble(String input) {
+        return mModel.convertStringToDouble(input);
+    }
+
     /**
      * Báo lỗi nếu  tên món trống
      * Edited by lvhung at 5/30/2019

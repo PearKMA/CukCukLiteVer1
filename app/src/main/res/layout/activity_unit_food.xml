@@ -30,6 +30,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/margin_big"
+        android:dividerHeight="0.5dp"
+        android:divider="@color/border_gray"
         android:layout_weight="1">
 
     </ListView>

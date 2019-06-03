@@ -1,6 +1,29 @@
-package vn.com.misa.cukcuklitever1.dialog;
+package vn.com.misa.cukcuklitever1.dialog_price_calculator;
+
+import vn.com.misa.cukcuklitever1.convert_string.ConvertCurrencyAdapter;
+import vn.com.misa.cukcuklitever1.convert_string.IPriceTarget;
 
 public class DialogPriceFoodModel implements IDialogPriceFoodContract.IModel {
+    private IPriceTarget mPriceTarget;
+    public DialogPriceFoodModel(){
+        mPriceTarget= new ConvertCurrencyAdapter();
+    }
+
+    @Override
+    public double convertStringToDouble(String input) {
+        String s = input.replace(".", "");
+        try {
+            return Double.parseDouble(s.replaceAll(",", "."));
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    @Override
+    public String convertToCurrency(double priceInput) {
+        return mPriceTarget.getPriceString(priceInput);
+    }
+
     @Override
     public double setIncrement(String input) {
         try {
@@ -41,12 +64,14 @@ public class DialogPriceFoodModel implements IDialogPriceFoodContract.IModel {
                 if (i.contains("-")) {
                     String[] n2 = i.split("-");
                     if (!n2[0].isEmpty())
-                        result += Double.parseDouble(n2[0]);
+                        result += convertStringToDouble(n2[0]);
                     for (int j = 1; j < n2.length; j++) {
-                        result -= Double.parseDouble(n2[j]);
+                        if (!n2[j].isEmpty())
+                        result -= convertStringToDouble(n2[j]);
                     }
                 } else {
-                    result += Double.parseDouble(i);
+                    if (!i.isEmpty())
+                    result += convertStringToDouble(i);
                 }
             }
             return result;

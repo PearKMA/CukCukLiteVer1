@@ -70,4 +70,9 @@
     <string name="key_comma">,</string>
     <string name="key_by">=</string>
     <string name="number_negative">Giá không được âm</string>
+    <string name="add_unit">Thêm đơn vị tính</string>
+    <string name="edit_unit">Sửa đơn vị tính</string>
+    <string name="cancel">Hủy bỏ</string>
+    <string name="hint_input_unit">Nhập đơn vị tính</string>
+    <string name="unit_duplicate"><![CDATA[Đơn vị tính <%s> đã tồn tại]]></string>
 </resources>

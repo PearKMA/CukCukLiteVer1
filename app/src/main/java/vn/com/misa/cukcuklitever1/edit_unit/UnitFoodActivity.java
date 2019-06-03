@@ -1,5 +1,8 @@
 package vn.com.misa.cukcuklitever1.edit_unit;
 
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -15,8 +18,6 @@ import vn.com.misa.cukcuklitever1.base.BaseActivity;
  * create by lvhung on 5/29/2019
  */
 public class UnitFoodActivity extends BaseActivity {
-
-
     @BindView(R.id.tvTitleToolbar)
     TextView tvTitleToolbar;
     @BindView(R.id.lvUnit)
@@ -43,5 +44,24 @@ public class UnitFoodActivity extends BaseActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         tvTitleToolbar.setText(getString(R.string.title_unit));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_get, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.mnuGet:
+                return true;
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

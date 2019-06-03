@@ -16,9 +16,11 @@ public interface INewFoodContract {
         void checkInput(String name, double price, String unit, String color, String icon);    //check các thông tin có đúng hay không
 
         void onDestroy(); //hủy view khi view bị hủy
+        double convertToDouble(String input);
     }
 
     interface IModel {
+        double convertStringToDouble(String input);
         interface IAddFinished {
             void onNameFoodEmpty(); //trả vê presenter khi tên trống
 

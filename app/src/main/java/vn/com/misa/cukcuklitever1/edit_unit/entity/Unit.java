@@ -1,4 +1,4 @@
-package vn.com.misa.cukcuklitever1.add_food.entity;
+package vn.com.misa.cukcuklitever1.edit_unit.entity;
 
 public class Unit {
     private int id;

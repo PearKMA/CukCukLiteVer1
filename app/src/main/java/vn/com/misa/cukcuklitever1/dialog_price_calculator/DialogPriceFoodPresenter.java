@@ -1,4 +1,4 @@
-package vn.com.misa.cukcuklitever1.dialog;
+package vn.com.misa.cukcuklitever1.dialog_price_calculator;
 
 public class DialogPriceFoodPresenter implements IDialogPriceFoodContract.IPresenter{
     private IDialogPriceFoodContract.IView mView;
@@ -26,12 +26,12 @@ public class DialogPriceFoodPresenter implements IDialogPriceFoodContract.IPrese
 
     @Override
     public void decrementNumber(String originalText) {
-        mView.showResult(String.valueOf(mModel.setDecrement(originalText)));
+        mView.showResult(mModel.convertToCurrency(mModel.setDecrement(originalText)));
     }
 
     @Override
     public void incrementNumber(String originalText) {
-        mView.showResult(String.valueOf(mModel.setIncrement(originalText)));
+        mView.showResult(mModel.convertToCurrency(mModel.setIncrement(originalText)));
     }
 
     @Override
@@ -53,14 +53,24 @@ public class DialogPriceFoodPresenter implements IDialogPriceFoodContract.IPrese
     public void absNumber(String originalText) {
         double result = mModel.calculateNumber(originalText);
         if (result>=0.0){
-            mView.showResult("-"+result);
+            mView.showResult("-"+mModel.convertToCurrency(result));
         }else {
-            mView.showResult(String.valueOf(Math.abs(result)));
+            mView.showResult(mModel.convertToCurrency(Math.abs(result)));
         }
     }
 
     @Override
     public void calculatorDone(String originalText) {
-        mView.calcuatorComplete(mModel.calculateNumber(originalText)+"");
+        mView.calculatorComplete(mModel.convertToCurrency(mModel.calculateNumber(originalText)));
+    }
+
+    @Override
+    public void convertToCurrency(double priceInput) {
+        mView.showResult(mModel.convertToCurrency(priceInput));
+    }
+
+    @Override
+    public void convertStringToDouble(String input) {
+        mView.getPrice(mModel.convertStringToDouble(input));
     }
 }

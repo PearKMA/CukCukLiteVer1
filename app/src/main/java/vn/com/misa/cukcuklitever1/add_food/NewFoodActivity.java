@@ -1,5 +1,6 @@
 package vn.com.misa.cukcuklitever1.add_food;
 
+import android.content.Intent;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,7 +19,8 @@ import vn.com.misa.cukcuklitever1.R;
 import vn.com.misa.cukcuklitever1.base.BaseActivity;
 import vn.com.misa.cukcuklitever1.convert_string.ConvertCurrencyAdapter;
 import vn.com.misa.cukcuklitever1.convert_string.IPriceTarget;
-import vn.com.misa.cukcuklitever1.dialog.DialogPriceFood;
+import vn.com.misa.cukcuklitever1.dialog_price_calculator.DialogPriceFood;
+import vn.com.misa.cukcuklitever1.edit_unit.UnitFoodActivity;
 
 /**
  * Hiển thị các thông tin thêm mới món
@@ -40,8 +42,9 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
     @BindView(R.id.btnAdd)
     Button btnAdd;
     private INewFoodContract.IPresenter mPresenter;
-    private double mPrice;  //Lưu giá bán khi thay đổi
+    private double mPrice = 0;  //Lưu giá bán khi thay đổi
     private IPriceTarget mPriceTarget; //Chuyển đổi double sang dạng tiền tệ
+
     /**
      * Xử lý các setup & sự kiện cho view
      * Edited by lvhung at 5/30/2019
@@ -67,13 +70,7 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
     private void getInput() {
         String name = etNameFood.getText().toString().trim();
         double price;
-        try {
-            //Chuyển #.###,## -> ####,## -> ####.##
-            String s = tvPriceFood.getText().toString().trim().replace(".","");
-            price = Double.parseDouble(s.replaceAll(",", "."));
-        } catch (NumberFormatException e) {
-            price = mPrice;
-        }
+        price = mPresenter.convertToDouble(tvPriceFood.getText().toString().trim());
         String unit = tvUnitFood.getText().toString().trim();
         String color = "#0973b9";
         String icon = "ic_default.png";
@@ -200,11 +197,11 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
                 getInput();
                 break;
             case R.id.tvPriceFood:
-                DialogPriceFood dialog = DialogPriceFood.newInstance(0);
+                DialogPriceFood dialog = DialogPriceFood.newInstance(mPrice);
                 dialog.show(getSupportFragmentManager(), "Price");
                 break;
             case R.id.tvUnitFood:
-                showToast("Đang thi công");
+                startActivity(new Intent(NewFoodActivity.this, UnitFoodActivity.class));
                 break;
             case R.id.ivColorFood:
                 showToast("Đang thi công");

@@ -22,7 +22,7 @@ import vn.com.misa.cukcuklitever1.R;
 import vn.com.misa.cukcuklitever1.base.BaseActivity;
 import vn.com.misa.cukcuklitever1.convert_string.ConvertCurrencyAdapter;
 import vn.com.misa.cukcuklitever1.convert_string.IPriceTarget;
-import vn.com.misa.cukcuklitever1.dialog.DialogPriceFood;
+import vn.com.misa.cukcuklitever1.dialog_price_calculator.DialogPriceFood;
 
 /**
  * Chỉnh sửa món ăn trong thực đơn

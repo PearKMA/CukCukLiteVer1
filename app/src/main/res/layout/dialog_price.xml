@@ -64,7 +64,7 @@
         <TextView
             android:id="@+id/tvKeyC"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_ketboard"
+            android:layout_height="@dimen/height_keyboard"
             android:layout_weight="1"
             android:clickable="true"
             android:background="@drawable/state_textview"
@@ -76,7 +76,7 @@
         <TextView
             android:id="@+id/tvKeyDecrement"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_ketboard"
+            android:layout_height="@dimen/height_keyboard"
             android:layout_weight="1"
             android:clickable="true"
             android:background="@drawable/state_textview"
@@ -88,7 +88,7 @@
         <TextView
             android:id="@+id/tvKeyIncreament"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_ketboard"
+            android:layout_height="@dimen/height_keyboard"
             android:layout_weight="1"
             android:clickable="true"
             android:layout_margin="@dimen/margin_normal"

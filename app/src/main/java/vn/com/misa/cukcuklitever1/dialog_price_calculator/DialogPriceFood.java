@@ -1,4 +1,4 @@
-package vn.com.misa.cukcuklitever1.dialog;
+package vn.com.misa.cukcuklitever1.dialog_price_calculator;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -23,13 +23,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import vn.com.misa.cukcuklitever1.R;
-import vn.com.misa.cukcuklitever1.convert_string.ConvertCurrencyAdapter;
-import vn.com.misa.cukcuklitever1.convert_string.IPriceTarget;
 
 /**
  * dialog hiện nhập giá món
  */
-public class DialogPriceFood extends DialogFragment implements View.OnClickListener {
+public class DialogPriceFood extends DialogFragment implements View.OnClickListener, IDialogPriceFoodContract.IView {
     @BindView(R.id.ivClose)
     ImageView ivClose;
     @BindView(R.id.etPrice)
@@ -75,8 +73,9 @@ public class DialogPriceFood extends DialogFragment implements View.OnClickListe
     @BindView(R.id.tvKeyComma)
     TextView tvKeyComma;
     Unbinder unbinder;
-    double price = -1;
-    private IPriceTarget mPriceTarget;
+    double mPrice = -1;
+    private IDialogPriceFoodContract.IPresenter mPresenter;
+
 
     /**
      * callback trả về giá đã nhập
@@ -97,7 +96,7 @@ public class DialogPriceFood extends DialogFragment implements View.OnClickListe
      */
     public static DialogPriceFood newInstance(double price) {
         Bundle args = new Bundle();
-        args.putDouble("price", price);
+        args.putDouble("mPrice", price);
         DialogPriceFood fragment = new DialogPriceFood();
         fragment.setArguments(args);
         return fragment;
@@ -156,11 +155,11 @@ public class DialogPriceFood extends DialogFragment implements View.OnClickListe
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_price, container);
         unbinder = ButterKnife.bind(this, view);
-        mPriceTarget = new ConvertCurrencyAdapter();
+        mPresenter = new DialogPriceFoodPresenter(this);
         //Kiểm tra giá trị nhập vào
         if (getArguments() != null) {
-            double priceInput = getArguments().getDouble("price", 0);
-            convertToCurrency(priceInput);
+            double priceInput = getArguments().getDouble("mPrice", 0);
+            mPresenter.convertToCurrency(priceInput);
         }
         etPrice.setSelectAllOnFocus(true);
         etPrice.addTextChangedListener(new TextWatcher() {
@@ -173,6 +172,10 @@ public class DialogPriceFood extends DialogFragment implements View.OnClickListe
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (etPrice.length() == 0) {
                     etPrice.setText("0");
+                }else {
+                    if (etPrice.getText().toString().trim().startsWith("0")){
+                        etPrice.setText(etPrice.getText().toString().trim().substring(1));
+                    }
                 }
             }
 
@@ -218,38 +221,9 @@ public class DialogPriceFood extends DialogFragment implements View.OnClickListe
         tvKey0.setOnClickListener(this);
         tvKey000.setOnClickListener(this);
         tvKeyAbs.setOnClickListener(this);
+        tvKeyAdd.setOnClickListener(this);
+        tvKeySub.setOnClickListener(this);
         return view;
-    }
-
-    /**
-     * Chuyển đổi giá
-     *
-     * @param priceInput
-     */
-    private void convertToCurrency(double priceInput) {
-        etPrice.setText(mPriceTarget.getPriceString(priceInput));
-        if (etPrice.getText().toString().equals("0")) {
-            etPrice.setSelectAllOnFocus(true);
-        } else {
-            etPrice.setSelection(etPrice.getText().length());
-        }
-    }
-
-    /**
-     * Chuyển đổi text thành double
-     * create by lvhung on 6/1/2019
-     *
-     * @return double
-     */
-    private double convertStringToDouble() {
-        //Chuyển #.###,## -> ####,## -> ####.##
-        String s = etPrice.getText().toString().trim().replace(".", "");
-        try {
-            return Double.parseDouble(s.replaceAll(",", "."));
-        } catch (NumberFormatException e) {
-            convertToCurrency(0);
-            return 0;
-        }
     }
 
     /**
@@ -260,58 +234,100 @@ public class DialogPriceFood extends DialogFragment implements View.OnClickListe
      */
     @Override
     public void onClick(View v) {
+        String input = etPrice.getText().toString().trim();
         switch (v.getId()) {
             case R.id.btnDone:
-                price = convertStringToDouble();
-                if (onInputListener != null && price >= 0) {
-                    onInputListener.sendInput(price);
-                    getDialog().dismiss();
-                } else {
-                    Toast toast;
-                    toast = Toast.makeText(getActivity(), getString(R.string.number_negative), Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 200);
-                    toast.show();
-                }
-
+                mPresenter.calculatorDone(input);
                 break;
             case R.id.tvKeyC:
-                convertToCurrency(0);
+                mPresenter.clearAll();
                 break;
             case R.id.tvKeyDecrement:
-
+                mPresenter.decrementNumber(input);
                 break;
             case R.id.tvKeyIncreament:
-
+                mPresenter.incrementNumber(input);
                 break;
             case R.id.tvKeyClear:
+                mPresenter.clearOne(input);
                 break;
             case R.id.tvKey7:
+                mPresenter.appendNumber(input,"7");
                 break;
             case R.id.tvKey8:
+                mPresenter.appendNumber(input,"8");
                 break;
             case R.id.tvKey9:
+                mPresenter.appendNumber(input,"9");
                 break;
             case R.id.tvKey4:
+                mPresenter.appendNumber(input,"4");
                 break;
             case R.id.tvKey5:
+                mPresenter.appendNumber(input,"5");
                 break;
             case R.id.tvKey6:
+                mPresenter.appendNumber(input,"6");
                 break;
             case R.id.tvKey1:
+                mPresenter.appendNumber(input,"1");
                 break;
             case R.id.tvKey2:
+                mPresenter.appendNumber(input,"2");
                 break;
             case R.id.tvKey3:
+                mPresenter.appendNumber(input,"3");
                 break;
             case R.id.tvKey0:
+                mPresenter.appendNumber(input,"0");
                 break;
             case R.id.tvKey000:
+                mPresenter.appendNumber(input,"000");
                 break;
             case R.id.tvKeyComma:
+                mPresenter.appendComma(input);
                 break;
             case R.id.tvKeyAbs:
+                mPresenter.absNumber(input);
+                break;
+            case  R.id.tvKeyAdd:
+                mPresenter.addNumber(input);
+                break;
+            case R.id.tvKeySub:
+                mPresenter.subNumber(input);
                 break;
         }
+    }
+
+    @Override
+    public void showResult(String result) {
+        etPrice.setText(result);
+        if (etPrice.getText().toString().equals("0")) {
+            etPrice.setSelectAllOnFocus(true);
+        } else {
+            etPrice.setSelection(etPrice.getText().length());
+        }
+    }
+
+    @Override
+    public void calculatorComplete(String result) {
+        etPrice.setText(result);
+        mPresenter.convertStringToDouble(result);
+        if (onInputListener != null && mPrice >= 0) {
+            onInputListener.sendInput(mPrice);
+            getDialog().dismiss();
+        } else {
+            Toast toast;
+            toast = Toast.makeText(getActivity(), getString(R.string.number_negative), Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 200);
+            toast.show();
+        }
+    }
+
+    @Override
+    public void getPrice(double price) {
+        mPrice = price;
+        mPresenter.convertToCurrency(price);
     }
 
     @Override
