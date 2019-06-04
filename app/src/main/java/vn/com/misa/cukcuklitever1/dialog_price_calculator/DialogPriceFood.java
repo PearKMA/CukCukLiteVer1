@@ -173,9 +173,12 @@ public class DialogPriceFood extends DialogFragment implements View.OnClickListe
                 if (etPrice.length() == 0) {
                     etPrice.setText("0");
                 }else {
-                    if (etPrice.getText().toString().trim().startsWith("0")){
+                    if (etPrice.length()>1&&etPrice.getText().toString().trim().substring(0,1).equals("0")){
                         etPrice.setText(etPrice.getText().toString().trim().substring(1));
                     }
+                }
+                if (etPrice.getText().toString().trim().equals("0")){
+                    etPrice.setSelectAllOnFocus(true);
                 }
             }
 
@@ -299,8 +302,21 @@ public class DialogPriceFood extends DialogFragment implements View.OnClickListe
         }
     }
 
+    /**
+     * Hiển thị kết quả lên edittext khi xử ý xong
+     * Edited by lvhung at 6/4/2019
+     * @param result kết quả
+     */
     @Override
     public void showResult(String result) {
+        try{
+            double number = Double.parseDouble(result);
+            if (number==0|number==0.0){
+                etPrice.setText("0");
+            }
+        }catch(Exception e){
+            etPrice.setText(result);
+        }
         etPrice.setText(result);
         if (etPrice.getText().toString().equals("0")) {
             etPrice.setSelectAllOnFocus(true);
@@ -309,6 +325,11 @@ public class DialogPriceFood extends DialogFragment implements View.OnClickListe
         }
     }
 
+    /**
+     * Xử lý khi chọn nút xong
+     * Edited by lvhung at 6/4/2019
+     * @param result kết quả
+     */
     @Override
     public void calculatorComplete(String result) {
         etPrice.setText(result);
@@ -324,12 +345,21 @@ public class DialogPriceFood extends DialogFragment implements View.OnClickListe
         }
     }
 
+    /**
+     * Lưu giá đã tính toán
+     * Edited by lvhung at 6/4/2019
+     * @param price giá được tính xong
+     */
     @Override
     public void getPrice(double price) {
         mPrice = price;
         mPresenter.convertToCurrency(price);
     }
 
+    /**
+     * Thay đổi kích cỡ dialog
+     * Edited by lvhung at 6/4/2019
+     */
     @Override
     public void onResume() {
         super.onResume();

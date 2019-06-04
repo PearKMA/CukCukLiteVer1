@@ -74,5 +74,6 @@
     <string name="edit_unit">Sửa đơn vị tính</string>
     <string name="cancel">Hủy bỏ</string>
     <string name="hint_input_unit">Nhập đơn vị tính</string>
-    <string name="unit_duplicate"><![CDATA[Đơn vị tính <%s> đã tồn tại]]></string>
+    <string name="unit_duplicate">Đơn vị tính %1$s đã tồn tại</string>
+    <string name="broadcast_save_last_unit">LastUnit</string>
 </resources>

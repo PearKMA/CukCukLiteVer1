@@ -7,6 +7,10 @@ public class Unit {
     public Unit() {
     }
 
+    public Unit(String unit) {
+        this.unit = unit;
+    }
+
     public Unit(int id, String unit) {
         this.id = id;
         this.unit = unit;

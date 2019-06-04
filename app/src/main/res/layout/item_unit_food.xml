@@ -4,12 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
-    android:padding="@dimen/padding_big"
+    android:paddingStart="@dimen/padding_big"
+    android:paddingEnd="@dimen/padding_big"
+    android:paddingTop="@dimen/padding_normal"
+    android:paddingBottom="@dimen/padding_normal"
     android:layout_height="wrap_content">
     <android.support.v7.widget.CardView
-        android:layout_width="@dimen/size_icon_food"
-        android:layout_height="@dimen/size_icon_food"
-        app:cardCornerRadius="@dimen/round_corner">
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="16dp">
         <ImageView
             android:id="@+id/ivCheck"
             android:layout_gravity="center"
@@ -25,13 +29,13 @@
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
         tools:text="@string/food_price"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/black"
         android:paddingStart="@dimen/padding_big"
         android:paddingEnd="@dimen/padding_big"/>
     <ImageView
         android:id="@+id/ivEdit"
-        android:layout_width="@dimen/size_icon_food"
-        android:layout_height="@dimen/size_icon_food"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:src="@drawable/ic_edit"/>
 </LinearLayout>

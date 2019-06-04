@@ -1,6 +1,9 @@
 package vn.com.misa.cukcuklitever1.add_food;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,7 +47,7 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
     private INewFoodContract.IPresenter mPresenter;
     private double mPrice = 0;  //Lưu giá bán khi thay đổi
     private IPriceTarget mPriceTarget; //Chuyển đổi double sang dạng tiền tệ
-
+    private BroadcastReceiver mBroadcast;
     /**
      * Xử lý các setup & sự kiện cho view
      * Edited by lvhung at 5/30/2019
@@ -201,7 +204,9 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
                 dialog.show(getSupportFragmentManager(), "Price");
                 break;
             case R.id.tvUnitFood:
-                startActivity(new Intent(NewFoodActivity.this, UnitFoodActivity.class));
+                Intent intent = new Intent(NewFoodActivity.this, UnitFoodActivity.class);
+                intent.putExtra("UNIT", tvUnitFood.getText().toString().trim());
+                startActivity(intent);
                 break;
             case R.id.ivColorFood:
                 showToast("Đang thi công");
@@ -222,6 +227,25 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
     public void sendInput(double input) {
         mPrice = input;
         tvPriceFood.setText(mPriceTarget.getPriceString(mPrice));
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter("" + getString(R.string.broadcast_save_last_unit));
+        mBroadcast = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (tvUnitFood != null&&intent.getAction().equals(context.getString(R.string.broadcast_save_last_unit)))
+                    tvPriceFood.setText(intent.getStringExtra("Name"));
+            }
+        };
+        registerReceiver(mBroadcast, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mBroadcast);
     }
 }

@@ -101,7 +101,7 @@
             android:id="@+id/tvKeyClear"
             android:layout_width="0dp"
             android:padding="@dimen/padding_normal"
-            android:layout_height="@dimen/height_ketboard"
+            android:layout_height="@dimen/height_keyboard"
             android:layout_weight="1"
             android:layout_margin="@dimen/margin_normal"
             android:clickable="true"
@@ -123,7 +123,7 @@
         <TextView
             android:id="@+id/tvKey7"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_ketboard"
+            android:layout_height="@dimen/height_keyboard"
             android:layout_weight="1"
             android:clickable="true"
             android:background="@drawable/state_textview"
@@ -135,7 +135,7 @@
         <TextView
             android:id="@+id/tvKey8"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_ketboard"
+            android:layout_height="@dimen/height_keyboard"
             android:layout_weight="1"
             android:clickable="true"
             android:background="@drawable/state_textview"
@@ -147,7 +147,7 @@
         <TextView
             android:id="@+id/tvKey9"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_ketboard"
+            android:layout_height="@dimen/height_keyboard"
             android:layout_weight="1"
             android:clickable="true"
             android:layout_margin="@dimen/margin_normal"
@@ -159,7 +159,7 @@
         <TextView
             android:id="@+id/tvKeySub"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_ketboard"
+            android:layout_height="@dimen/height_keyboard"
             android:layout_weight="1"
             android:clickable="true"
             android:layout_margin="@dimen/margin_normal"
@@ -181,7 +181,7 @@
         <TextView
             android:id="@+id/tvKey4"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_ketboard"
+            android:layout_height="@dimen/height_keyboard"
             android:layout_weight="1"
             android:clickable="true"
             android:background="@drawable/state_textview"
@@ -193,7 +193,7 @@
         <TextView
             android:id="@+id/tvKey5"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_ketboard"
+            android:layout_height="@dimen/height_keyboard"
             android:layout_weight="1"
             android:clickable="true"
             android:background="@drawable/state_textview"
@@ -205,7 +205,7 @@
         <TextView
             android:id="@+id/tvKey6"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_ketboard"
+            android:layout_height="@dimen/height_keyboard"
             android:layout_weight="1"
             android:clickable="true"
             android:layout_margin="@dimen/margin_normal"
@@ -217,7 +217,7 @@
         <TextView
             android:id="@+id/tvKeyAdd"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_ketboard"
+            android:layout_height="@dimen/height_keyboard"
             android:layout_weight="1"
             android:clickable="true"
             android:layout_margin="@dimen/margin_normal"
@@ -239,7 +239,7 @@
         <TextView
             android:id="@+id/tvKey1"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_ketboard"
+            android:layout_height="@dimen/height_keyboard"
             android:layout_weight="1"
             android:clickable="true"
             android:background="@drawable/state_textview"
@@ -251,7 +251,7 @@
         <TextView
             android:id="@+id/tvKey2"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_ketboard"
+            android:layout_height="@dimen/height_keyboard"
             android:layout_weight="1"
             android:clickable="true"
             android:background="@drawable/state_textview"
@@ -263,7 +263,7 @@
         <TextView
             android:id="@+id/tvKey3"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_ketboard"
+            android:layout_height="@dimen/height_keyboard"
             android:layout_weight="1"
             android:clickable="true"
             android:layout_margin="@dimen/margin_normal"
@@ -275,7 +275,7 @@
         <TextView
             android:id="@+id/tvKeyAbs"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_ketboard"
+            android:layout_height="@dimen/height_keyboard"
             android:layout_weight="1"
             android:clickable="true"
             android:layout_margin="@dimen/margin_normal"
@@ -297,7 +297,7 @@
         <TextView
             android:id="@+id/tvKey0"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_ketboard"
+            android:layout_height="@dimen/height_keyboard"
             android:layout_weight="1"
             android:clickable="true"
             android:background="@drawable/state_textview"
@@ -309,7 +309,7 @@
         <TextView
             android:id="@+id/tvKey000"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_ketboard"
+            android:layout_height="@dimen/height_keyboard"
             android:layout_weight="1"
             android:clickable="true"
             android:background="@drawable/state_textview"
@@ -321,7 +321,7 @@
         <TextView
             android:id="@+id/tvKeyComma"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_ketboard"
+            android:layout_height="@dimen/height_keyboard"
             android:layout_weight="1"
             android:clickable="true"
             android:layout_margin="@dimen/margin_normal"
@@ -333,7 +333,7 @@
         <TextView
             android:id="@+id/btnDone"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_ketboard"
+            android:layout_height="@dimen/height_keyboard"
             android:layout_weight="1"
             android:clickable="true"
             android:layout_margin="@dimen/margin_normal"

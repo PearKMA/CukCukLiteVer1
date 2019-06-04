@@ -4,11 +4,23 @@ import vn.com.misa.cukcuklitever1.convert_string.ConvertCurrencyAdapter;
 import vn.com.misa.cukcuklitever1.convert_string.IPriceTarget;
 
 public class DialogPriceFoodModel implements IDialogPriceFoodContract.IModel {
+    //class xử lý số thành dạng tiền
     private IPriceTarget mPriceTarget;
-    public DialogPriceFoodModel(){
+
+    /**
+     * constructor
+     * Edited by lvhung at 6/4/2019
+     */
+    DialogPriceFoodModel(){
         mPriceTarget= new ConvertCurrencyAdapter();
     }
 
+    /**
+     * Chuyển đổi ngược lại chuỗi thành số
+     * Edited by lvhung at 6/4/2019
+     * @param input chuỗi nhập vào
+     * @return số được chuyển đỏi
+     */
     @Override
     public double convertStringToDouble(String input) {
         String s = input.replace(".", "");
@@ -19,11 +31,23 @@ public class DialogPriceFoodModel implements IDialogPriceFoodContract.IModel {
         }
     }
 
+    /**
+     * Chuyển đổi số thành chữ
+     * Edited by lvhung at 6/4/2019
+     * @param priceInput số nhập vào
+     * @return chuỗi dạng #.###,#
+     */
     @Override
     public String convertToCurrency(double priceInput) {
         return mPriceTarget.getPriceString(priceInput);
     }
 
+    /**
+     * Set tăng giá trị lên 1
+     * Edited by lvhung at 6/4/2019
+     * @param input chuỗi nhập vào
+     * @return số đã tăng giá trị
+     */
     @Override
     public double setIncrement(String input) {
         try {
@@ -35,6 +59,12 @@ public class DialogPriceFoodModel implements IDialogPriceFoodContract.IModel {
         }
     }
 
+    /**
+     * Set giảm giá trị đi 1
+     * Edited by lvhung at 6/4/2019
+     * @param input chuỗi nhập vào
+     * @return số đã giảm
+     */
     @Override
     public double setDecrement(String input) {
         try {
@@ -46,6 +76,12 @@ public class DialogPriceFoodModel implements IDialogPriceFoodContract.IModel {
         }
     }
 
+    /**
+     * Xóa 1 ký tự
+     * Edited by lvhung at 6/4/2019
+     * @param input chuỗi nhập vào
+     * @return chuỗi
+     */
     @Override
     public String clearOne(String input) {
         if (input.length() > 1) {
@@ -55,6 +91,12 @@ public class DialogPriceFoodModel implements IDialogPriceFoodContract.IModel {
         }
     }
 
+    /**
+     * Xử lý tính toán số người dùng đã nhập vào, chỉ hỗ trợ dạng cộng trừ các số không có ký tự đặc biệt
+     * Edited by lvhung at 6/4/2019
+     * @param input chuỗi trên edittext
+     * @return  kết quả tính
+     */
     @Override
     public double calculateNumber(String input) {
         try {

@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
-import java.util.ArrayList;
-
 import vn.com.misa.cukcuklitever1.R;
 import vn.com.misa.cukcuklitever1.database.SQLiteFoodDataController;
 import vn.com.misa.cukcuklitever1.menu_cook.entity.Food;
@@ -15,7 +13,6 @@ import vn.com.misa.cukcuklitever1.menu_cook.entity.Food;
  * create by lvhung on 5/29/2019
  */
 public class EditFoodModel implements IEditFoodContract.IModel {
-    private ArrayList<Food> foods;
     private SQLiteFoodDataController mDatabase;
     private Context mContext;
 
@@ -24,8 +21,6 @@ public class EditFoodModel implements IEditFoodContract.IModel {
      * @param mContext context
      */
     EditFoodModel(Activity mContext) {
-        if (foods == null)
-            foods = new ArrayList<>();
         if (mDatabase == null)
             mDatabase = new SQLiteFoodDataController(mContext);
         this.mContext = mContext;
