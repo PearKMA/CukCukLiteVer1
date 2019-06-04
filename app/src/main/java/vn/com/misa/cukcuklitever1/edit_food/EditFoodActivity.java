@@ -1,6 +1,8 @@
 package vn.com.misa.cukcuklitever1.edit_food;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,10 +21,12 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import vn.com.misa.cukcuklitever1.R;
+import vn.com.misa.cukcuklitever1.add_food.NewFoodActivity;
 import vn.com.misa.cukcuklitever1.base.BaseActivity;
 import vn.com.misa.cukcuklitever1.convert_string.ConvertCurrencyAdapter;
 import vn.com.misa.cukcuklitever1.convert_string.IPriceTarget;
 import vn.com.misa.cukcuklitever1.dialog_price_calculator.DialogPriceFood;
+import vn.com.misa.cukcuklitever1.edit_unit.UnitFoodActivity;
 
 /**
  * Chỉnh sửa món ăn trong thực đơn
@@ -182,7 +186,9 @@ public class EditFoodActivity extends BaseActivity implements View.OnClickListen
                 dialog.show(getSupportFragmentManager(), "Price");
                 break;
             case R.id.tvUnitFood:
-                showToast("Đang thi công");
+                Intent intent = new Intent(EditFoodActivity.this, UnitFoodActivity.class);
+                intent.putExtra("UNIT", tvUnitFood.getText().toString().trim());
+                startActivityForResult(intent,1);
                 break;
             case R.id.ivColorFood:
                 showToast("Đang thi công");
@@ -261,5 +267,21 @@ public class EditFoodActivity extends BaseActivity implements View.OnClickListen
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.onDestroyPresenter();
+    }
+    /**
+     * Lấy kết quả trả về khi chọn đơn vị tính xong
+     * Edited by lvhung at 5/30/2019
+     * @param requestCode code gửi lên
+     * @param resultCode code nhận lại
+     * @param data dữ liệu
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==1&&resultCode==2){
+            if (data!=null){
+                tvUnitFood.setText(data.getStringExtra("UNIT"));
+            }
+        }
     }
 }

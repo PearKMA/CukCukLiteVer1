@@ -1,9 +1,9 @@
 package vn.com.misa.cukcuklitever1.add_food;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -47,7 +47,7 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
     private INewFoodContract.IPresenter mPresenter;
     private double mPrice = 0;  //Lưu giá bán khi thay đổi
     private IPriceTarget mPriceTarget; //Chuyển đổi double sang dạng tiền tệ
-    private BroadcastReceiver mBroadcast;
+    private SharedPreferences pref;
     /**
      * Xử lý các setup & sự kiện cho view
      * Edited by lvhung at 5/30/2019
@@ -206,7 +206,7 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
             case R.id.tvUnitFood:
                 Intent intent = new Intent(NewFoodActivity.this, UnitFoodActivity.class);
                 intent.putExtra("UNIT", tvUnitFood.getText().toString().trim());
-                startActivity(intent);
+                startActivityForResult(intent,1);
                 break;
             case R.id.ivColorFood:
                 showToast("Đang thi công");
@@ -229,23 +229,32 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
         tvPriceFood.setText(mPriceTarget.getPriceString(mPrice));
     }
 
+    /**
+     * Lấy đơn vị tính cuối cùng được lưu
+     * Edited by lvhung at 5/30/2019
+     */
     @Override
     protected void onResume() {
         super.onResume();
-        IntentFilter filter = new IntentFilter("" + getString(R.string.broadcast_save_last_unit));
-        mBroadcast = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (tvUnitFood != null&&intent.getAction().equals(context.getString(R.string.broadcast_save_last_unit)))
-                    tvPriceFood.setText(intent.getStringExtra("Name"));
-            }
-        };
-        registerReceiver(mBroadcast, filter);
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        tvUnitFood.setText(pref.getString("UNIT", ""));
     }
 
+    /**
+     * Lấy kết quả trả về khi chọn đơn vị tính xong
+     * Edited by lvhung at 5/30/2019
+     * @param requestCode code gửi lên
+     * @param resultCode code nhận lại
+     * @param data dữ liệu
+     */
     @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(mBroadcast);
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==1&&resultCode==2){
+            if (data!=null){
+                tvUnitFood.setText(data.getStringExtra("UNIT"));
+                pref.edit().putString("UNIT", tvUnitFood.getText().toString()).apply();
+            }
+        }
     }
 }

@@ -7,12 +7,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +32,9 @@ public class UnitAdapter extends ArrayAdapter<Unit> {
     private String nameSelected;
     public interface IEditUnit{
         void onEditUnit(String name,int id);
+        void unitSelected(String unit);
+
+        void removeItem(Unit unit);
     }
 
     public void setCallback(IEditUnit mListener){
@@ -52,10 +57,10 @@ public class UnitAdapter extends ArrayAdapter<Unit> {
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View row = this.context.getLayoutInflater().inflate(this.resource, null);
         ImageView ivCheck = row.findViewById(R.id.ivCheck);
-        TextView tvNameUnit = row.findViewById(R.id.tvNameUnit);
+        final TextView tvNameUnit = row.findViewById(R.id.tvNameUnit);
         ImageView ivEdit = row.findViewById(R.id.ivEdit);
 
-        Unit unit = this.objects.get(position);
+        final Unit unit = this.objects.get(position);
         if (nameSelected!=null&&nameSelected.equalsIgnoreCase(unit.getUnit())){
             lastPositon = position;
         }
@@ -69,6 +74,9 @@ public class UnitAdapter extends ArrayAdapter<Unit> {
             @Override
             public void onClick(View v) {
                 lastPositon = position;
+                if (mListener!=null){
+                    mListener.unitSelected(objects.get(lastPositon).getUnit());
+                }
                 notifyDataSetChanged();
             }
         });
@@ -76,6 +84,9 @@ public class UnitAdapter extends ArrayAdapter<Unit> {
             @Override
             public void onClick(View v) {
                 lastPositon=position;
+                if (mListener!=null){
+                    mListener.unitSelected(objects.get(lastPositon).getUnit());
+                }
                 notifyDataSetChanged();
                 createDialogAddUnit();
             }
@@ -84,6 +95,9 @@ public class UnitAdapter extends ArrayAdapter<Unit> {
             @Override
             public void onClick(View v) {
                 lastPositon = position;
+                if (mListener!=null){
+                    mListener.unitSelected(objects.get(lastPositon).getUnit());
+                }
                 notifyDataSetChanged();
             }
         });
@@ -91,13 +105,34 @@ public class UnitAdapter extends ArrayAdapter<Unit> {
             @Override
             public void onClick(View v) {
                 lastPositon = position;
+                if (mListener!=null){
+                    mListener.unitSelected(objects.get(lastPositon).getUnit());
+                }
                 notifyDataSetChanged();
             }
         });
         tvNameUnit.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                return false;
+                final PopupMenu popup = new PopupMenu(context, tvNameUnit);
+                popup.getMenuInflater().inflate(R.menu.menu_delete_item, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int i = item.getItemId();
+                        if (i == R.id.mnuRemove) {
+                            if (mListener!=null){
+                                mListener.removeItem(objects.get(lastPositon));
+                            }
+                            return true;
+                        }
+                        else {
+                            return onMenuItemClick(item);
+                        }
+                    }
+                });
+
+                popup.show();
+                return true;
             }
         });
         return row;

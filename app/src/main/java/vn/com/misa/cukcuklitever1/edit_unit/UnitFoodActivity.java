@@ -1,6 +1,7 @@
 package vn.com.misa.cukcuklitever1.edit_unit;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -41,7 +42,7 @@ public class UnitFoodActivity extends BaseActivity implements UnitAdapter.IEditU
     Button btnAdd;
     private UnitAdapter mAdapter;
     private IUnitFoodContract.IPresenter mPresenter;
-
+    private String lastName;
     /**
      * lấy id layout để setContentView
      * create by lvhung on 5/29/2019
@@ -64,6 +65,15 @@ public class UnitFoodActivity extends BaseActivity implements UnitAdapter.IEditU
         tvTitleToolbar.setText(getString(R.string.title_unit));
         mPresenter = new UnitFoodPresenter(this, this);
         mPresenter.getAllData();
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra("UNIT", lastName!=null?lastName:"Bao");
+                setResult(2, intent);
+                finish();
+            }
+        });
     }
 
     @Override
@@ -97,6 +107,16 @@ public class UnitFoodActivity extends BaseActivity implements UnitAdapter.IEditU
     }
 
     @Override
+    public void unitSelected(String unit) {
+        lastName = unit;
+    }
+
+    @Override
+    public void removeItem(Unit unit) {
+        mPresenter.removeUnit(unit.getId());
+    }
+
+    @Override
     public void showData(ArrayList<Unit> units) {
         if (mAdapter == null) {
             mAdapter = new UnitAdapter(this, R.layout.item_unit_food, units);
@@ -121,11 +141,6 @@ public class UnitFoodActivity extends BaseActivity implements UnitAdapter.IEditU
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 120);
         toast.show();
-    }
-
-    @OnClick(R.id.btnAdd)
-    public void onViewClicked() {
-        finish();
     }
 
     private void createDialogAddUnit() {
