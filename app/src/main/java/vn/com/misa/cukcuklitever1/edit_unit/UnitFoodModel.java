@@ -17,17 +17,33 @@ public class UnitFoodModel implements IUnitFoodContract.IModel {
     private SQLiteFoodDataController mDatabase;
     private Context mContext;
 
+    /**
+     * constructor
+     * @param mContext context
+     */
     UnitFoodModel(Activity mContext) {
         this.mContext = mContext;
         if (mDatabase == null)
             mDatabase = new SQLiteFoodDataController(mContext);
     }
 
+    /**
+     * Lấy toàn bộ danh sách đơn vị tính trả về view
+     * create by lvhung on 6/5/2019
+     * @return list unit
+     */
     @Override
     public ArrayList<Unit> getAllUnit() {
         return mDatabase.getAllUnit();
     }
 
+    /**
+     * Sửa đơn vị tính
+     * create by lvhung on 6/5/2019
+     * @param name tên
+     * @param id id
+     * @param iCheckFinish listener
+     */
     @Override
     public void editUnit(String name, int id, ICheckFinish iCheckFinish) {
         if (name.isEmpty()) {
@@ -37,12 +53,22 @@ public class UnitFoodModel implements IUnitFoodContract.IModel {
                 iCheckFinish.onSuccessful(mContext.getString(R.string.edit_successful));
                 Intent intent = new Intent(mContext.getString(R.string.broadcast_update));
                 mContext.sendBroadcast(intent);
+
+                Intent intent1 = new Intent();
+                intent1.setAction(mContext.getString(R.string.broadcast_save_last_unit));
+                intent1.putExtra("Name",name);
+                mContext.sendBroadcast(intent1);
             } else {
                 iCheckFinish.onFail("Error when edit. Try again!");
             }
         }
     }
 
+    /**
+     * Xóa đơn vị tính
+     * @param id id
+     * @param iCheckFinish listener
+     */
     @Override
     public void removeUnit(final int id, final ICheckFinish iCheckFinish) {
         new Handler().post(new Runnable() {
@@ -71,6 +97,12 @@ public class UnitFoodModel implements IUnitFoodContract.IModel {
         });
     }
 
+    /**
+     * Thêm đơn vị tính
+     * create by lvhung on 6/5/2019
+     * @param name tên
+     * @param iCheckFinish listener
+     */
     @Override
     public void insertUnit(final String name, final ICheckFinish iCheckFinish) {
         new Handler().post(new Runnable() {

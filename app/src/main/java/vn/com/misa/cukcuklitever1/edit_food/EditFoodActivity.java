@@ -25,6 +25,7 @@ import vn.com.misa.cukcuklitever1.add_food.NewFoodActivity;
 import vn.com.misa.cukcuklitever1.base.BaseActivity;
 import vn.com.misa.cukcuklitever1.convert_string.ConvertCurrencyAdapter;
 import vn.com.misa.cukcuklitever1.convert_string.IPriceTarget;
+import vn.com.misa.cukcuklitever1.dialog_pick_color.DialogPickColor;
 import vn.com.misa.cukcuklitever1.dialog_price_calculator.DialogPriceFood;
 import vn.com.misa.cukcuklitever1.edit_unit.UnitFoodActivity;
 
@@ -33,7 +34,7 @@ import vn.com.misa.cukcuklitever1.edit_unit.UnitFoodActivity;
  * create by lvhung on 5/29/2019
  */
 public class EditFoodActivity extends BaseActivity implements View.OnClickListener,
-        IEditFoodContract.IView, DialogPriceFood.OnInputListener {
+        IEditFoodContract.IView, DialogPriceFood.OnInputListener, DialogPickColor.IColorDialogReturned {
     @BindView(R.id.tvTitleToolbar)
     TextView tvTitleToolbar;
     @BindView(R.id.etNameFood)
@@ -188,10 +189,13 @@ public class EditFoodActivity extends BaseActivity implements View.OnClickListen
             case R.id.tvUnitFood:
                 Intent intent = new Intent(EditFoodActivity.this, UnitFoodActivity.class);
                 intent.putExtra("UNIT", tvUnitFood.getText().toString().trim());
-                startActivityForResult(intent,1);
+                startActivityForResult(intent, 1);
                 break;
             case R.id.ivColorFood:
-                showToast("Đang thi công");
+                DialogPickColor pickColor = DialogPickColor.newInstance(mLastColor);
+                pickColor.setCallback(this);
+                pickColor.setCancelable(false);
+                pickColor.show(getSupportFragmentManager(), "Color");
                 break;
             case R.id.ivIconFood:
                 showToast("Đang thi công");
@@ -268,20 +272,31 @@ public class EditFoodActivity extends BaseActivity implements View.OnClickListen
         super.onDestroy();
         mPresenter.onDestroyPresenter();
     }
+
     /**
      * Lấy kết quả trả về khi chọn đơn vị tính xong
      * Edited by lvhung at 5/30/2019
+     *
      * @param requestCode code gửi lên
-     * @param resultCode code nhận lại
-     * @param data dữ liệu
+     * @param resultCode  code nhận lại
+     * @param data        dữ liệu
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==1&&resultCode==2){
-            if (data!=null){
+        if (requestCode == 1 && resultCode == 2) {
+            if (data != null) {
                 tvUnitFood.setText(data.getStringExtra("UNIT"));
             }
+        }
+    }
+
+    @Override
+    public void onColorReturned(String color) {
+        if (color.length() > 0) {
+            mLastColor = color;
+            ivColorFood.setBackgroundColor(Color.parseColor(color));
+            ivIconFood.setBackgroundColor(Color.parseColor(color));
         }
     }
 }

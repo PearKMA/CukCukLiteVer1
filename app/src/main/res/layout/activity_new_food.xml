@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Thực đơn"
+            tools:text="Thực đơn"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/white" />
     </android.support.v7.widget.Toolbar>
@@ -122,26 +122,40 @@
             android:layout_gravity="center_vertical"
             android:textColor="@color/text_color_menu_food"
             android:text="@string/color_food"/>
-        <ImageView
-            android:id="@+id/ivColorFood"
+        <android.support.v7.widget.CardView
             android:layout_width="@dimen/size_icon_food"
             android:layout_height="@dimen/size_icon_food"
-            android:src="@drawable/ic_color"
-            android:background="@drawable/circle"
             android:layout_marginEnd="@dimen/margin_normal"
-            android:layout_marginStart="@dimen/magin_huge"/>
+            app:cardCornerRadius="@dimen/round_corner"
+            app:cardElevation="0dp"
+            android:layout_marginStart="@dimen/magin_huge">
+            <ImageView
+                android:id="@+id/ivColorFood"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_color"
+                android:background="@drawable/circle"/>
+        </android.support.v7.widget.CardView>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/icon_food"
             android:layout_gravity="center"/>
-        <ImageView
-            android:id="@+id/ivIconFood"
+        <android.support.v7.widget.CardView
             android:layout_width="@dimen/size_icon_food"
             android:layout_height="@dimen/size_icon_food"
-            android:src="@drawable/ic_help_blue"
             android:layout_marginStart="@dimen/margin_big"
-            android:layout_marginEnd="@dimen/margin_big"/>
+            app:cardCornerRadius="@dimen/round_corner"
+            app:cardElevation="0dp"
+            android:layout_marginEnd="@dimen/margin_big">
+            <ImageView
+                android:id="@+id/ivIconFood"
+                android:layout_width="@dimen/size_icon_food"
+                android:layout_height="@dimen/size_icon_food"
+                android:tag="@string/default_image"
+                android:src="@drawable/ic_help_blue"/>
+        </android.support.v7.widget.CardView>
+
     </LinearLayout>
     <FrameLayout
         android:layout_width="match_parent"

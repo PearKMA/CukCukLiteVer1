@@ -2,6 +2,7 @@ package vn.com.misa.cukcuklitever1.add_food;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.view.Gravity;
@@ -22,13 +23,15 @@ import vn.com.misa.cukcuklitever1.R;
 import vn.com.misa.cukcuklitever1.base.BaseActivity;
 import vn.com.misa.cukcuklitever1.convert_string.ConvertCurrencyAdapter;
 import vn.com.misa.cukcuklitever1.convert_string.IPriceTarget;
+import vn.com.misa.cukcuklitever1.dialog_pick_color.DialogPickColor;
 import vn.com.misa.cukcuklitever1.dialog_price_calculator.DialogPriceFood;
 import vn.com.misa.cukcuklitever1.edit_unit.UnitFoodActivity;
 
 /**
  * Hiển thị các thông tin thêm mới món
  */
-public class NewFoodActivity extends BaseActivity implements INewFoodContract.IView, View.OnClickListener, DialogPriceFood.OnInputListener {
+public class NewFoodActivity extends BaseActivity implements INewFoodContract.IView, View.OnClickListener,
+        DialogPriceFood.OnInputListener, DialogPickColor.IColorDialogReturned {
 
     @BindView(R.id.tvTitleToolbar)
     TextView tvTitleToolbar;
@@ -48,6 +51,7 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
     private double mPrice = 0;  //Lưu giá bán khi thay đổi
     private IPriceTarget mPriceTarget; //Chuyển đổi double sang dạng tiền tệ
     private SharedPreferences pref;
+
     /**
      * Xử lý các setup & sự kiện cho view
      * Edited by lvhung at 5/30/2019
@@ -59,6 +63,9 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
         tvTitleToolbar.setText(getString(R.string.add_food));
         mPresenter = new NewFoodPresenter(this, this);
         mPriceTarget = new ConvertCurrencyAdapter();
+        //lấy dữ liệu lần cuối được lưu
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        tvUnitFood.setText(pref.getString("UNIT", "Bao"));
         btnAdd.setOnClickListener(this);
         tvPriceFood.setOnClickListener(this);
         tvUnitFood.setOnClickListener(this);
@@ -206,10 +213,13 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
             case R.id.tvUnitFood:
                 Intent intent = new Intent(NewFoodActivity.this, UnitFoodActivity.class);
                 intent.putExtra("UNIT", tvUnitFood.getText().toString().trim());
-                startActivityForResult(intent,1);
+                startActivityForResult(intent, 1);
                 break;
             case R.id.ivColorFood:
-                showToast("Đang thi công");
+                DialogPickColor pickColor = DialogPickColor.newInstance(pref.getString("Color", "#039be5"));
+                pickColor.setCallback(this);
+                pickColor.setCancelable(false);
+                pickColor.show(getSupportFragmentManager(), "Color");
                 break;
             case R.id.ivIconFood:
                 showToast("Đang thi công");
@@ -229,32 +239,40 @@ public class NewFoodActivity extends BaseActivity implements INewFoodContract.IV
         tvPriceFood.setText(mPriceTarget.getPriceString(mPrice));
     }
 
-    /**
-     * Lấy đơn vị tính cuối cùng được lưu
-     * Edited by lvhung at 5/30/2019
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        pref = PreferenceManager.getDefaultSharedPreferences(this);
-        tvUnitFood.setText(pref.getString("UNIT", ""));
-    }
 
     /**
      * Lấy kết quả trả về khi chọn đơn vị tính xong
      * Edited by lvhung at 5/30/2019
+     *
      * @param requestCode code gửi lên
-     * @param resultCode code nhận lại
-     * @param data dữ liệu
+     * @param resultCode  code nhận lại
+     * @param data        dữ liệu
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==1&&resultCode==2){
-            if (data!=null){
+        if (requestCode == 1 && resultCode == 2) {
+            if (data != null) {
                 tvUnitFood.setText(data.getStringExtra("UNIT"));
                 pref.edit().putString("UNIT", tvUnitFood.getText().toString()).apply();
             }
+        }
+    }
+
+    /**
+     * Lấy color từ dialog trả về
+     * create by lvhung on 6/5/2019
+     *
+     * @param color màu
+     */
+    @Override
+    public void onColorReturned(String color) {
+        if (color.length() > 0) {
+            ivColorFood.setBackgroundColor(Color.parseColor(color));
+            String tag = String.valueOf(ivIconFood.getTag());
+            if (!tag.equals(getString(R.string.default_image)))
+                ivIconFood.setBackgroundColor(Color.parseColor(color));
+            pref.edit().putString("Color", color).apply();
         }
     }
 }

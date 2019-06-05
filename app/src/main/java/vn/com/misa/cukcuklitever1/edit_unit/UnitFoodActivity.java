@@ -1,9 +1,7 @@
 package vn.com.misa.cukcuklitever1.edit_unit;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import vn.com.misa.cukcuklitever1.R;
 import vn.com.misa.cukcuklitever1.base.BaseActivity;
 import vn.com.misa.cukcuklitever1.edit_unit.adapter.UnitAdapter;
@@ -76,6 +72,12 @@ public class UnitFoodActivity extends BaseActivity implements UnitAdapter.IEditU
         });
     }
 
+    /**
+     * Tạo menu
+     * create by lvhung on 6/5/2019
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -83,6 +85,11 @@ public class UnitFoodActivity extends BaseActivity implements UnitAdapter.IEditU
         return true;
     }
 
+    /**
+     * Xử lý sự kiện của menu
+     * @param item  menu được chọn
+     * @return listener
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -97,55 +104,120 @@ public class UnitFoodActivity extends BaseActivity implements UnitAdapter.IEditU
         }
     }
 
+    /**
+     * Sửa tên đơn vị tính
+     * create by lvhung on 6/5/2019
+     * @param name tên đơn vị tính
+     * @param id id đơn vị tính
+     */
     @Override
     public void onEditUnit(String name, int id) {
         mPresenter.getInputEdit(name, id);
-        Intent intent = new Intent();
-        intent.setAction(getString(R.string.broadcast_save_last_unit));
-        intent.putExtra("Name",name);
-        sendBroadcast(intent);
+
     }
 
+    /**
+     * Lấy tên đơn vị tính đang được chọn
+     * create by lvhung on 6/5/2019
+     * @param unit tên đơn vị tính
+     */
     @Override
     public void unitSelected(String unit) {
         lastName = unit;
     }
 
+    /**
+     * Xóa đơn vị tính
+     * create by lvhung on 6/5/2019
+     * @param unit class unit
+     */
     @Override
-    public void removeItem(Unit unit) {
-        mPresenter.removeUnit(unit.getId());
+    public void removeItem(final Unit unit) {
+        LayoutInflater li = LayoutInflater.from(this);
+        @SuppressLint("InflateParams") View viewDialog = li.inflate(R.layout.dialog_remove_unit, null);
+
+        final AlertDialog alertDialogBuilder = new AlertDialog.Builder(
+                this).create();
+        alertDialogBuilder.setView(viewDialog);
+        TextView tvTitle = viewDialog.findViewById(R.id.tvTitleDialog);
+        ImageView ivClose = viewDialog.findViewById(R.id.ivCloseDialog);
+        final TextView tvMessage= viewDialog.findViewById(R.id.tvMessage);
+        Button btnCancel = viewDialog.findViewById(R.id.btnCancel);
+        Button btnGet = viewDialog.findViewById(R.id.btnGet);
+        tvTitle.setText(this.getString(R.string.app_name));
+        tvTitle.setAllCaps(true);
+        tvMessage.setText(String.format(getString(R.string.remove_message),unit.getUnit()));
+        ivClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialogBuilder.dismiss();
+            }
+        });
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialogBuilder.dismiss();
+            }
+        });
+        btnGet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.removeUnit(unit.getId());
+            }
+        });
+        alertDialogBuilder.setCancelable(false);
+        alertDialogBuilder.show();
     }
 
+    /**
+     * Hiển thị list đơn vị tính
+     * @param units list đơn vị tính
+     */
     @Override
     public void showData(ArrayList<Unit> units) {
-        if (mAdapter == null) {
             mAdapter = new UnitAdapter(this, R.layout.item_unit_food, units);
             mAdapter.setCallback(this);
             lvUnit.setAdapter(mAdapter);
-        } else {
-            mAdapter.notifyDataSetChanged();
-        }
     }
 
+    /**
+     * Thông báo lỗi nếu có lỗi xảy ra khi thêm, sủa xóa đơn vị tính
+     * create by lvhung on 6/5/2019
+     * @param message chi tiết lỗi
+     */
     @Override
     public void showError(String message) {
         showToast(message);
     }
 
+    /**
+     * Thông báo thêm, sửa , xóa thành công
+     * create by lvhung on 6/5/2019
+     * @param message chi tiết
+     */
     @Override
     public void onComplete(String message) {
         showToast(message);
     }
 
+    /**
+     * Hiển thị tin nhắn lên màn hình
+     * create by lvhung on 6/5/2019
+     * @param message tin nhắn
+     */
     private void showToast(String message) {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 120);
         toast.show();
     }
 
+    /**
+     * Tạo dialog thêm đơn vị tính
+     * create by lvhung on 6/5/2019
+     */
     private void createDialogAddUnit() {
         LayoutInflater li = LayoutInflater.from(this);
-        @SuppressLint("InflateParams") View viewDialog = li.inflate(R.layout.dialog_unit, null);
+        @SuppressLint("InflateParams") View viewDialog = li.inflate(R.layout.dialog_edit_unit, null);
 
         final AlertDialog alertDialogBuilder = new AlertDialog.Builder(
                 this).create();
@@ -180,6 +252,10 @@ public class UnitFoodActivity extends BaseActivity implements UnitAdapter.IEditU
         alertDialogBuilder.show();
     }
 
+    /**
+     * Hủy đăng ký view
+     * create by lvhung on 6/5/2019
+     */
     @Override
     protected void onDestroy() {
         mPresenter.destroyView();

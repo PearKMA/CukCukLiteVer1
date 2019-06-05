@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CukCukLiteVer1</string>
+    <string name="app_name">CukCuk Lite</string>
     <string name="name_test">CukCuk Lite</string>
     <string name="email_test">cukcuklite@gmail.com</string>
     <string name="sale_nav">Bán hàng</string>
@@ -77,4 +77,8 @@
     <string name="unit_duplicate">Đơn vị tính %1$s đã tồn tại</string>
     <string name="broadcast_save_last_unit">LastUnit</string>
     <string name="remove_unit">Xóa đơn vị tính</string>
+    <string name="negative_button">Không</string>
+    <string name="positive_button">Có</string>
+    <string name="remove_message">Bạn có chắc chắn muốn xóa đơn vị tính %1$s không ?</string>
+    <string name="default_image">default</string>
 </resources>
